@@ -80,7 +80,7 @@ window.addImage = function(name, url, editable) {
             });
         }
         function importSVG(TEXT, NAME) {
-            Scratch.fetch(TEXT)
+            fetch(TEXT)
             .then((r) => r.arrayBuffer())
             .then((arrayBuffer) => {
                 const storage = vm.runtime.storage;
