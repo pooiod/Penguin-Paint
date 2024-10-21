@@ -67,10 +67,10 @@ window.importImage = function(name, url) {
         .then(data => {
             const isSVG = data.trim().startsWith("<svg");
             if (isSVG) {
-                window.addImage("svg", url, true);
+                window.addImage(name, url, true);
             } else {
                 window.fitToCanvas(url).then((url) => {
-                    window.addImage("Imported 1", url);
+                    window.addImage(name, url);
                 });
             }
         });            
