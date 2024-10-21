@@ -25,33 +25,38 @@ window.setSize = function(width, height) {
 window.fitToCanvas = async function(url) {
     const img = new Image();
     img.crossOrigin = "Anonymous";
-  
+
     return new Promise((resolve, reject) => {
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const aspectRatio = img.width / img.height;
-  
-        if (window.stageWidth / window.stageHeight > aspectRatio) {
-          canvas.height = window.stageHeight;
-          canvas.width = window.stageHeight * aspectRatio;
-        } else {
-          canvas.width = window.stageWidth;
-          canvas.height = window.stageWidth / aspectRatio;
-        }
-  
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const resizedImage = canvas.toDataURL();
-        resolve(resizedImage);
-      };
-  
-      img.onerror = () => {
-        resolve(url);
-      };
-  
-      img.src = url;
+        img.onload = () => {
+            if (img.width <= window.stageWidth && img.height <= window.stageHeight) {
+                resolve(url);
+                return;
+            }
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const aspectRatio = img.width / img.height;
+
+            if (window.stageWidth / window.stageHeight > aspectRatio) {
+                canvas.height = window.stageHeight;
+                canvas.width = window.stageHeight * aspectRatio;
+            } else {
+                canvas.width = window.stageWidth;
+                canvas.height = window.stageWidth / aspectRatio;
+            }
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const resizedImage = canvas.toDataURL();
+            resolve(resizedImage);
+        };
+
+        img.onerror = () => {
+            resolve(url);
+        };
+
+        img.src = url;
     });
-}  
+};
 
 window.addImage = function(name, url) {
     runWithScratch(`

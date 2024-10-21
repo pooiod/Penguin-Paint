@@ -68,7 +68,7 @@
         buttonContainer.appendChild(cancelButton);
   
         const confirmButton = document.createElement('button');
-        confirmButton.textContent = 'Generate';
+        confirmButton.textContent = 'Import';
         confirmButton.style.padding = '10px 15px';
         confirmButton.style.backgroundColor = '#28a745';
         confirmButton.style.color = '#fff';
@@ -90,7 +90,6 @@
   
         confirmButton.addEventListener('click', () => {
             var url = promptInput.value || promptInput.placeholder;
-            // var selectedModelIndex = modelSelect.value;
   
             document.body.removeChild(overlay);
 
