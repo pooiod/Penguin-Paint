@@ -52,9 +52,9 @@ window.fitToCanvas = async function(url) {
             resolve(resizedImage);
         };
 
-        img.onerror = () => {
-            resolve(url);
-        };
+        // img.onerror = () => {
+        //     resolve(url);
+        // };
 
         img.src = url;
     });
