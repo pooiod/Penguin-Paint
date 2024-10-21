@@ -60,7 +60,7 @@ window.fitToCanvas = async function(url) {
     });
 }
 
-window.addImage = function(name, url, loadsvg) {
+window.addImage = function(name, url, editable) {
     runWithScratch(`
         function importPNG(TEXT, NAME) {
           fetch(TEXT)
@@ -99,7 +99,7 @@ window.addImage = function(name, url, loadsvg) {
                 vm.addCostume(newCostumeObject.md5, newCostumeObject);
             });
         }
-        if (${loadsvg?true:false}) {
+        if (${editable?true:false}) {
             importSVG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
         } else {
             importPNG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
