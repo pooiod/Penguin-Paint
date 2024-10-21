@@ -118,7 +118,7 @@ addImageButton(
       promptInput.style.border = '1px solid #ccc';
       promptInput.style.borderRadius = '5px';
       modal.appendChild(promptInput);
-      promptInput.focus();
+      setTimeout(() => promptInput.focus(), 500);
 
       const modelSelect = document.createElement('select');
       gptimage.models.forEach((model, index) => {
