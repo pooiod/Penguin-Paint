@@ -12,7 +12,7 @@
         "name": "URL image importing",
         "description": "Adds an item in the \"new image\" menu to import images from url, rather than a local file.",
         "authors": ["Pooiod7"],
-        "note": "Images will be converted to bitmap, and resized to fit the canvas if too large)",
+        "note": "Bitmap images will be and resized to fit the canvas if too large)",
         "hidden": false
     },
     {
