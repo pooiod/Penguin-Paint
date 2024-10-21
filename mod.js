@@ -60,15 +60,15 @@ window.fitToCanvas = async function(url) {
     });
 }
 
-window.addImage = function(name, url) {
+window.addImage = function(name, url, loadsvg) {
     runWithScratch(`
-        function importImage(TEXT) {
+        function importPNG(TEXT, NAME) {
           fetch(TEXT)
             .then((r) => r.arrayBuffer())
             .then((arrayBuffer) => {
               const storage = vm.runtime.storage;
-              vm.addCostume(decodeURI(\`${encodeURI(name)}\`) + ".PNG", {
-                name: decodeURI(\`${encodeURI(name)}\`),
+              vm.addCostume(NAME + ".PNG", {
+                name: NAME,
                 asset: new storage.Asset(
                   storage.AssetType.ImageBitmap,
                   null,
@@ -78,7 +78,32 @@ window.addImage = function(name, url) {
                 ),
               });
             });
-        } importImage("${url}");
+        }
+        function importSVG(TEXT, NAME) {
+            Scratch.fetch(TEXT)
+            .then((r) => r.arrayBuffer())
+            .then((arrayBuffer) => {
+                const storage = vm.runtime.storage;
+                const asset = new storage.Asset(
+                storage.AssetType.ImageVector,
+                null,
+                storage.DataFormat.SVG,
+                new Uint8Array(arrayBuffer),
+                true
+                );
+                const newCostumeObject = {
+                md5: asset.assetId + '.' + asset.dataFormat,
+                asset: asset,
+                name: NAME
+                };
+                vm.addCostume(newCostumeObject.md5, newCostumeObject);
+            });
+        }
+        if (${loadsvg?true:false}) {
+            importSVG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
+        } else {
+            importPNG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
+        }
     `);
 }
 
