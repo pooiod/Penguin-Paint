@@ -8,6 +8,14 @@
         "hidden": true
     },
     {
+        "id": "urlimport",
+        "name": "URL image importing",
+        "description": "Adds an item in the \"new image\" menu to import images from url, rather than a local file.",
+        "authors": ["Pooiod7"],
+        "note": "Images that are larger than the canvas will be resized down to fit it (and converted to bitmap)",
+        "hidden": false
+    },
+    {
         "id": "backpack",
         "name": "Backpack",
         "description": "Adds in a backpack at the top of the screen, to keep image snips for later.",
