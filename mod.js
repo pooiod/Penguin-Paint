@@ -5,21 +5,81 @@ document.title = newtitle;
 
 var sidebarcontext = [
     {
-        label: "Item 1",
+        label: "export all",
         action: function() {
-            alert("Item 1 clicked!");
-        }
-    },
-    {
-        label: "Item 2",
-        action: function() {
-            alert("Item 2 clicked!");
-        }
-    },
-    {
-        label: "Item 3",
-        action: function() {
-            alert("Item 3 clicked!");
+            function loadScript(url) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+            
+            async function loadJSZip() {
+                if (typeof JSZip === 'undefined') {
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+                }
+                if (typeof saveAs === 'undefined') {
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js');
+                }
+            }
+            
+            async function exportSpritesToZip() {
+                await loadJSZip();
+            
+                var spr = Scratch.vm.runtime.getEditingTarget();
+                var images = spr.sprite.costumes_;
+                var zip = new JSZip();
+            
+                for (let index = 0; index < images.length; index++) {
+                    let costume = images[index];
+            
+                    if (costume.asset.data) {
+                        let imageData = costume.asset.data;
+                        
+                        let mimeType = '';
+                        let fileExtension = '';
+            
+                        switch (costume.asset.dataFormat) {
+                            case 'png':
+                                mimeType = 'image/png';
+                                fileExtension = 'png';
+                                break;
+                            case 'svg':
+                                mimeType = 'image/svg+xml';
+                                fileExtension = 'svg';
+                                break;
+                            case 'jpeg':
+                            case 'jpg':
+                                mimeType = 'image/jpeg';
+                                fileExtension = 'jpg';
+                                break;
+                            case 'gif':
+                                mimeType = 'image/gif';
+                                fileExtension = 'gif';
+                                break;
+                            default:
+                                console.warn(`Unsupported image format: ${costume.asset.dataFormat}`);
+                                continue;
+                        }
+            
+                        let blob = new Blob([imageData], { type: mimeType });
+            
+                        let fileName = `sprite_${index + 1}.${fileExtension}`;
+            
+                        zip.file(fileName, blob);
+                    }
+                }
+            
+                zip.generateAsync({ type: "blob" })
+                    .then(function (content) {
+                        saveAs(content, "sprites.zip");
+                    });
+            }
+            
+            exportSpritesToZip();            
         }
     }
 ];
