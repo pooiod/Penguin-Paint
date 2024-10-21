@@ -61,13 +61,13 @@ var sidebarcontext = [
                                 fileExtension = 'gif';
                                 break;
                             default:
-                                console.warn(`Unsupported image format: ${costume.asset.dataFormat}`);
+                                alert(`Unsupported image format: ${costume.asset.dataFormat}`);
                                 continue;
                         }
             
                         let blob = new Blob([imageData], { type: mimeType });
             
-                        let fileName = `sprite_${index + 1}.${fileExtension}`;
+                        let fileName = `${costume.asset.name}.${fileExtension}`;
             
                         zip.file(fileName, blob);
                     }
