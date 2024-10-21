@@ -93,13 +93,9 @@
   
             document.body.removeChild(overlay);
 
+            url = "https://api.allorigins.win/raw?url=" + url;
             window.fitToCanvas(url).then((url) => {
                 window.addImage("Imported 1", url);
-            }).catch((err)=>{
-                url = "https://api.allorigins.win/raw?url=" + url;
-                window.fitToCanvas(url).then((url) => {
-                    window.addImage("Imported 1", url);
-                })
             });
         });
   
