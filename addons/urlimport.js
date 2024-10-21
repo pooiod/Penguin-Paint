@@ -94,22 +94,7 @@
             document.body.removeChild(overlay);
 
             url = "https://api.allorigins.win/raw?url=" + url;
-            try {
-                fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    const isSVG = data.trim().startsWith("<svg");
-                    if (isSVG) {
-                        window.addImage("svg", url, true);
-                    } else {
-                        window.fitToCanvas(url).then((url) => {
-                            window.addImage("Imported 1", url);
-                        });
-                    }
-                });            
-            } catch(err) {
-                addImage("error1", "https://dummyimage.com/" + window.stageWidth + "x" + window.stageHeight + "/fff/000&text=Error generating image: " + err, false);
-            }
+            importImage("Import 1", url)
         });
   
         cancelButton.addEventListener('click', () => {
