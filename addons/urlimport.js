@@ -94,7 +94,7 @@
             document.body.removeChild(overlay);
 
             url = "https://api.allorigins.win/raw?url=" + url;
-            importImage("Import 1", url)
+            window.importImage("Import 1", url)
         });
   
         cancelButton.addEventListener('click', () => {
