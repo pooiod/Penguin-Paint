@@ -37,7 +37,7 @@
   
         const promptInput = document.createElement('input');
         promptInput.type = 'text';
-        promptInput.placeholder = 'https://example.com/image.png';
+        promptInput.placeholder = 'https://example.com/randomimage.png';
         promptInput.style.margin = '10px 0';
         promptInput.style.padding = '10px';
         promptInput.style.width = '100%';
@@ -89,7 +89,7 @@
         document.body.appendChild(overlay);
   
         confirmButton.addEventListener('click', () => {
-            var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}`;
+            var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}${Math.random()*100}`;
   
             document.body.removeChild(overlay);
 
