@@ -89,7 +89,7 @@
         document.body.appendChild(overlay);
   
         confirmButton.addEventListener('click', () => {
-            var url = promptInput.value || promptInput.placeholder;
+            var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}`;
   
             document.body.removeChild(overlay);
 
