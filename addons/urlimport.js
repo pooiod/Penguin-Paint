@@ -90,7 +90,7 @@
   
         confirmButton.addEventListener('click', () => {
             var url = promptInput.value || promptInput.placeholder;
-            var selectedModelIndex = modelSelect.value;
+            // var selectedModelIndex = modelSelect.value;
   
             document.body.removeChild(overlay);
 
