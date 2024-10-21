@@ -60,8 +60,8 @@ window.addImage = function(name, url) {
             .then((r) => r.arrayBuffer())
             .then((arrayBuffer) => {
               const storage = vm.runtime.storage;
-              vm.addCostume("${name.replace('"', '/"')}.PNG", {
-                name: "${name.replace('"', '/"')}",
+              vm.addCostume(decodeURI(\`${encodeURI(name)}\`).PNG", {
+                name: decodeURI(\`${encodeURI(name)}\`),
                 asset: new storage.Asset(
                   storage.AssetType.ImageBitmap,
                   null,

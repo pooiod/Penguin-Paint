@@ -148,7 +148,7 @@ addImageButton(
           const scratchCode = textInput.value || textInput.placeholder;
           const selectedStyle = styleDropdown.value;
           document.body.removeChild(overlay);
-		  addBlocks(scratchCode.replace("`", "´"), selectedStyle, formatDropdown.value);
+		  addBlocks(scratchCode, selectedStyle, formatDropdown.value);
         //   console.log('Scratchblocks code:', scratchCode);
         //   console.log('Selected style:', selectedStyle);
       });
@@ -205,9 +205,9 @@ window.runWithScratch(`
     }
 
 	if (${format == "svg"}) {
-		makestackSVG(\`${style}\`, \`${code}\`);
+		makestackSVG(\`${style}\`, decodeURI(\`${encodeURI(code)}\`));
 	} else {
-		makestackPNG(\`${style}\`, \`${code}\`);
+		makestackPNG(\`${style}\`, decodeURI(\`${encodeURI(code)}\`));
 	}
 
   function importSVG(TEXT, NAME) {
