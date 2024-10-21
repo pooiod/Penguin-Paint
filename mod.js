@@ -177,6 +177,9 @@ function extrabuttons() { document.title = newtitle;
         *::-webkit-scrollbar-thumb {
             background-color: #fff;
         }
+        *::-webkit-scrollbar-thumb:hover {
+            background-color: #eaeaea;
+        }
     `;
     document.head.appendChild(style);    
 
