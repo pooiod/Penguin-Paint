@@ -166,6 +166,20 @@ function extrabuttons() { document.title = newtitle;
 
     document.querySelector("#app > div").style.minWidth = "750px";
 
+    const style = document.createElement('style');
+    style.textContent = `
+        * {
+            scrollbar-color: #fff #d9e3f2;
+        }
+        *::-webkit-scrollbar-track {
+            background: #d9e3f2;
+        }
+        *::-webkit-scrollbar-thumb {
+            background-color: #fff;
+        }
+    `;
+    document.head.appendChild(style);    
+
     // const detailArea = document.querySelector('#react-tabs-3 > div > div.asset-panel_detail-area_2KQhH.box_box_2jjDp');
     // const selectorWrapper = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp');
     
@@ -416,15 +430,6 @@ var loadingScreen;
 function showLoader() {
     var style = document.createElement('style');
     style.textContent = `
-        /* * {
-            scrollbar-color: #d9e3f2 #fff;
-        }*/
-        *::-webkit-scrollbar-track {
-            background: #fff;
-        }
-        *::-webkit-scrollbar-thumb {
-            background-color: #d9e3f2;
-        }
         #paintLoadingScreen {
             position: fixed;
             top: 0;
