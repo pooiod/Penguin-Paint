@@ -44,6 +44,7 @@
         promptInput.style.border = '1px solid #ccc';
         promptInput.style.borderRadius = '5px';
         modal.appendChild(promptInput);
+        promptInput.focus();
   
         const buttonContainer = document.createElement('div');
         buttonContainer.style.display = 'flex';

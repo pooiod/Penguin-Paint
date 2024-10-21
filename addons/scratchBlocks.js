@@ -51,6 +51,7 @@ addImageButton(
       textInput.style.borderRadius = '5px';
       textInput.style.resize = 'none';
       modal.appendChild(textInput);
+      textInput.focus();
 
       // Create dropdown for style selection
       const styleLabel = document.createElement('label');
