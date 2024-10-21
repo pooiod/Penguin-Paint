@@ -1,6 +1,6 @@
 
   addImageButton(
-    '//yeetyourfiles.lol/download/ae02e5d9-a901-4391-a013-a165034ae3d6',
+    '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
     async () => {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
