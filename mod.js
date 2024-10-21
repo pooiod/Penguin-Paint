@@ -582,6 +582,7 @@ function createContextMenu(event) {
         menuItem.textContent = item.label;
         menuItem.style.padding = '8px';
         menuItem.style.cursor = 'pointer';
+        menuItem.style.borderRadius = "5px";
 
         // Add click event to each item
         menuItem.onclick = function() {
