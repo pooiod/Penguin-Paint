@@ -416,6 +416,15 @@ var loadingScreen;
 function showLoader() {
     var style = document.createElement('style');
     style.textContent = `
+        /* * {
+            scrollbar-color: #d9e3f2 #fff;
+        }*/
+        *::-webkit-scrollbar-track {
+            background: #fff;
+        }
+        *::-webkit-scrollbar-thumb {
+            background-color: #d9e3f2;
+        }
         #paintLoadingScreen {
             position: fixed;
             top: 0;
