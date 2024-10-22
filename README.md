@@ -23,7 +23,7 @@ This may be slower, but it ensures that all PenguinMod updates are always availa
 To use Penguin Paint, simply follow these steps:
 
 1. Open your web browser.
-2. Navigate to the [Penguin Paint Web App](https://penguinpaint.pages.dev/).
+2. Navigate to the [Penguin Paint Web App](https://penguinpaint.pages.dev/?import=https://yeetyourfiles.lol/download/6137cd1f-28a7-4916-8289-cdf70064191b).
 3. Click install as PWA button on url bar (not required)
 4. Start editing your images right away!
 
