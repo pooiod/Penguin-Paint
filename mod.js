@@ -305,6 +305,9 @@ function extrabuttons() { document.title = newtitle;
         *::-webkit-scrollbar-thumb:hover {
             background-color: #eaeaea;
         }
+      .input_input-form_1Y0wX.tw-color-readout_readout_3RxI3 {
+        width: 50px !important;
+      }
     `;
     document.head.appendChild(style);    
 
