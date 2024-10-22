@@ -1,6 +1,7 @@
 function addAltClickListener(img) {
     img.addEventListener('click', function (e) {
         if (e.altKey) {
+            e.preventDefault();
             const imageUrl = img.src;
             window.open(`https://penguinpaint.pages.dev/?import=${encodeURIComponent(imageUrl)}`, '_blank');
         }
