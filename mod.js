@@ -35,6 +35,8 @@ var sidebarcontext = [
             
                 for (let index = 0; index < images.length; index++) {
                     let costume = images[index];
+                    console.log(costume);
+                    let imgname = costume.name;
             
                     if (costume.asset.data) {
                         let imageData = costume.asset.data;
@@ -51,8 +53,7 @@ var sidebarcontext = [
                                 mimeType = 'image/svg+xml';
                                 fileExtension = 'svg';
                                 break;
-                            case 'jpeg':
-                            case 'jpg':
+                            case 'jpeg': case 'jpg':
                                 mimeType = 'image/jpeg';
                                 fileExtension = 'jpg';
                                 break;
@@ -64,10 +65,10 @@ var sidebarcontext = [
                                 alert(`Unsupported image format: ${costume.asset.dataFormat}`);
                                 continue;
                         }
-            
+
                         let blob = new Blob([imageData], { type: mimeType });
             
-                        let fileName = `${costume.asset.name}.${fileExtension}`;
+                        let fileName = `${imgname || "img "+(index+1)}.${fileExtension}`;
             
                         zip.file(fileName, blob);
                     }
@@ -75,11 +76,11 @@ var sidebarcontext = [
             
                 zip.generateAsync({ type: "blob" })
                     .then(function (content) {
-                        saveAs(content, "sprites.zip");
+                        saveAs(content, "export.zip");
                     });
             }
             
-            exportSpritesToZip();            
+            exportSpritesToZip();
         }
     }
 ];
@@ -632,74 +633,77 @@ function insertAddons() {
         }
     }
 
-// Function to create and display the context menu
-function createContextMenu(event) {
-    // Prevent default context menu
-    event.preventDefault();
+    // Function to create and display the context menu
+    function createContextMenu(event) {
+        // Prevent default context menu
+        event.preventDefault();
 
-    // Remove existing context menu if it exists
-    const existingMenu = document.querySelector('.custom-context-menu');
-    if (existingMenu) {
-        document.body.removeChild(existingMenu);
+        // Remove existing context menu if it exists
+        var existingMenu = document.querySelector('.custom-context-menu');
+        if (existingMenu) {
+            document.body.removeChild(existingMenu);
+        }
+
+        // Create new context menu
+        const menu = document.createElement('div');
+        menu.className = 'custom-context-menu';
+        menu.style.position = 'absolute';
+        menu.style.left = `${event.pageX}px`;
+        menu.style.top = `${event.pageY}px`;
+        menu.style.backgroundColor = 'white';
+        menu.style.border = '1px solid #ccc';
+        menu.style.boxShadow = '2px 2px 10px rgba(0,0,0,0.1)';
+        menu.style.zIndex = '1000';
+        menu.style.borderRadius = "5px";
+
+        // Populate menu with items from sidebarcontext
+        sidebarcontext.forEach(item => {
+            const menuItem = document.createElement('div');
+            menuItem.textContent = item.label;
+            menuItem.style.padding = '8px';
+            menuItem.style.cursor = 'pointer';
+            menuItem.style.borderRadius = "5px";
+
+            // Add click event to each item
+            menuItem.onclick = function() {
+                item.action(); // Call the action associated with the item
+                document.body.removeChild(menu); // Remove menu after selection
+            };
+
+            // Add hover effect
+            menuItem.onmouseover = function() {
+                menuItem.style.backgroundColor = '#f0f0f0';
+            };
+            menuItem.onmouseout = function() {
+                menuItem.style.backgroundColor = 'white';
+            };
+
+            menu.appendChild(menuItem);
+        });
+
+        document.body.appendChild(menu);
+
+        // Remove the menu when clicking anywhere else
+        document.addEventListener('click', function removeMenu() {
+            var existingMenu = document.querySelector('.custom-context-menu');
+            if (existingMenu) {
+                document.body.removeChild(existingMenu);
+                document.removeEventListener('click', removeMenu);
+            }
+        });
     }
 
-    // Create new context menu
-    const menu = document.createElement('div');
-    menu.className = 'custom-context-menu';
-    menu.style.position = 'absolute';
-    menu.style.left = `${event.pageX}px`;
-    menu.style.top = `${event.pageY}px`;
-    menu.style.backgroundColor = 'white';
-    menu.style.border = '1px solid #ccc';
-    menu.style.boxShadow = '2px 2px 10px rgba(0,0,0,0.1)';
-    menu.style.zIndex = '1000';
-    menu.style.borderRadius = "5px";
+    // Attach the context menu to the specified element
+    const sidebarElement = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp > div.selector_list-area_1Xbj_.box_box_2jjDp');
 
-    // Populate menu with items from sidebarcontext
-    sidebarcontext.forEach(item => {
-        const menuItem = document.createElement('div');
-        menuItem.textContent = item.label;
-        menuItem.style.padding = '8px';
-        menuItem.style.cursor = 'pointer';
-        menuItem.style.borderRadius = "5px";
-
-        // Add click event to each item
-        menuItem.onclick = function() {
-            item.action(); // Call the action associated with the item
-            document.body.removeChild(menu); // Remove menu after selection
-        };
-
-        // Add hover effect
-        menuItem.onmouseover = function() {
-            menuItem.style.backgroundColor = '#f0f0f0';
-        };
-        menuItem.onmouseout = function() {
-            menuItem.style.backgroundColor = 'white';
-        };
-
-        menu.appendChild(menuItem);
-    });
-
-    document.body.appendChild(menu);
-
-    // Remove the menu when clicking anywhere else
-    document.addEventListener('click', function removeMenu() {
-        document.body.removeChild(menu);
-        document.removeEventListener('click', removeMenu);
-    });
-}
-
-// Attach the context menu to the specified element
-const sidebarElement = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp > div.selector_list-area_1Xbj_.box_box_2jjDp');
-
-if (sidebarElement) {
-    sidebarElement.addEventListener('contextmenu', function(event) {
-        // Check if the target is the sidebarElement or its children
-        if (event.target === sidebarElement) {
-            createContextMenu(event); // Show the menu if clicked on the sidebarElement
-        }
-    });
-}
+    if (sidebarElement) {
+        sidebarElement.addEventListener('contextmenu', function(event) {
+            // Check if the target is the sidebarElement or its children
+            if (event.target === sidebarElement) {
+                createContextMenu(event); // Show the menu if clicked on the sidebarElement
+            }
+        });
+    }
 
     function showAlert() {
         if (!document.getElementById(alertId)) {
