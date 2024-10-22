@@ -1,5 +1,11 @@
 
-  addImageButton(
+let importurl = new URLSearchParams(window.location.search).get('import');
+if (importurl) {
+    importurl = "https://api.allorigins.win/raw?url=" + importurl;
+    window.importImage("Import", importurl);
+}
+
+addImageButton(
     '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
     async () => {
         const overlay = document.createElement('div');
