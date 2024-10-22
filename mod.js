@@ -698,7 +698,7 @@ function insertAddons() {
 
     if (sidebarElement) {
         sidebarElement.addEventListener('contextmenu', function(event) {
-            if (sidebarElement.contains(event.target)) {
+            if (event.target.parentNode === sidebarElement) {
                 createContextMenu(event);
             }
         });
