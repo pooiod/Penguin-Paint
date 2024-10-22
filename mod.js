@@ -642,7 +642,9 @@ function insertAddons() {
         if (!importurl.startsWith("data") && !importurl.startsWith("/")){
             importurl = "https://api.allorigins.win/raw?url=" + importurl;
         }
-        window.importImage("Import", importurl);
+        setTimeout(function(){
+            window.importImage("Import", importurl);
+        }, 500);
     }
 
     // Function to create and display the context menu
