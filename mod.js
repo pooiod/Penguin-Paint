@@ -637,6 +637,14 @@ function insertAddons() {
         }
     }
 
+    let importurl = new URLSearchParams(window.location.search).get('import');
+    if (importurl) {
+        if (!importurl.startsWith("data") && !importurl.startsWith("/")){
+            importurl = "https://api.allorigins.win/raw?url=" + importurl;
+        }
+        window.importImage("Import", importurl);
+    }
+
     // Function to create and display the context menu
     function createContextMenu(event) {
         // Prevent default context menu
