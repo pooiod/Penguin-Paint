@@ -87,12 +87,12 @@ var sidebarcontext = [
 
 var corsdomains = [
     "penguinpaint.pages.dev",
-    "yeetyourfiles.lol".
+    "yeetyourfiles.lol",
     "raw.githubusercontent.com",
     "api.allorigins.win"
 ];
 
-function isCorsDomain(url) {
+window.isCorsDomain = function(url) {
     var domain = new URL(url).hostname;
     return corsdomains.includes(domain);
 }
