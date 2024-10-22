@@ -2,7 +2,7 @@
 
 **Penguin Paint** is an image editor based on [PenguinMod](https://penguinmod.com)s costume editor. It provides a streamlined experience by focusing solely on the image editing features, making it perfect for users who want to create and edit images effortlessly.
 
-[![](frontpage.svg)](https://penguinpaint.pages.dev/ "https://penguinpaint.pages.dev/")<br>
+[![](frontpage.svg)](https://penguinpaint.pages.dev/?project_url=yeetyourfiles.lol/download/b8852370-9e8b-4c3b-b95f-c8f88781af81 "penguinpaint.pages.dev")<br>
 <sub>- This image was made in Penguin Paint</sub>
 
 ## Overview
