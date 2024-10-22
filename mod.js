@@ -85,6 +85,12 @@ var sidebarcontext = [
     }
 ];
 
+var corsdomains = [
+    "penguinpaint.pages.dev",
+    "yeetyourfiles.lol".
+    "raw.githubusercontent.com"
+]
+
 // functions for addons
 window.stageWidth = 480;
 window.stageHeight = 360;
