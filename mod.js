@@ -516,7 +516,7 @@ function openPaint() {
     
     setInterval(() => { // if the editor is unloaded, this code can't recover.
         if (document.querySelector('#app > div > div.interface_menu_3K-Q2 > div > div.menu-bar_main-menu_3wjWH > div:nth-child(4) > span > div')) {
-            fatalError("Error: editor unloaded");
+            fatalError('Error: unable to perform action on element "#app > div > div.interface_menu_3K-Q2 > div > div.menu-bar_main-menu_3wjWH > div:nth-child(4) > span > input" - not found');
         } if (document.querySelector('.blocklyFlyout')) {
             if (document.querySelector('.blocklyFlyout').style.display == "block") {
                 document.querySelector('#react-tabs-2').click();
