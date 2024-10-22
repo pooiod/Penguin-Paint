@@ -771,6 +771,13 @@ const waitForElement = (selector) => {
             setTimeout(() => {
                 document.querySelector("#app > div").style.minWidth = "750px";
                 openPaint();
+                var addonurlParams = new URLSearchParams(window.location.search);
+                if (addonurlParams.get("addons") === "true") {
+                    window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
+                    addonurlParams.delete("addons");
+                    const newUrl = window.location.pathname + "?" + addonurlParams.toString();
+                    window.location.href = "https://penguinpaint.pages.dev"
+                }
                 setTimeout(() => {
                     document.title = newtitle;
                     document.querySelector('#react-tabs-2').click();
@@ -813,13 +820,5 @@ const waitForElement = (selector) => {
         }
     }, 900);
 };
-
-var addonurlParams = new URLSearchParams(window.location.search);
-if (addonurlParams.get("addons") === "true") {
-    window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
-    addonurlParams.delete("addons");
-    const newUrl = window.location.pathname + "?" + addonurlParams.toString();
-    window.location.href = "https://penguinpaint.pages.dev"
-}
 
 waitForElement('#react-tabs-2');
