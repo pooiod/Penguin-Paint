@@ -328,9 +328,9 @@ function extrabuttons() { document.title = newtitle;
         var button = document.querySelector('.settings_button_2ovv0');
 
         if (window.location.hostname === "studio.penguinmod.com") {
-            document.getElementById("addonsbutton").innerHTML = "<b>Try the full Penguin Paint</b>";
+            document.getElementById("addonsbutton").innerHTML = "<b>Addons</b>";
             button.addEventListener('click', function() {
-                window.open("https://penguinpaint.pages.dev");
+                window.location.href = "https://penguinpaint.pages.dev?addons=true";
             });
         } else {
             button.addEventListener('click', function() {
@@ -813,5 +813,13 @@ const waitForElement = (selector) => {
         }
     }, 900);
 };
+
+const addonurlParams = new URLSearchParams(window.location.search);
+if (addonurlParams.get("addons") === "true") {
+    window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
+    addonurlParams.delete("addons");
+    const newUrl = window.location.pathname + "?" + addonurlParams.toString();
+    window.history.replaceState({}, document.title, newUrl);
+}
 
 waitForElement('#react-tabs-2');
