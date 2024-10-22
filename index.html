@@ -96,7 +96,7 @@
             scriptElement.text = modScript;
             document.head.appendChild(scriptElement);
             
-            return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://studio.penguinmod.com/editor.html'));
+            return fetch(window.location.pathname === '/'?'https://api.allorigins.win/get?url=' + encodeURIComponent('https://studio.penguinmod.com/editor.html'):"/404");
           })
           .then(response => response.json())
           .then(data => {
