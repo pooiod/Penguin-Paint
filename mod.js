@@ -698,12 +698,11 @@ function insertAddons() {
 
     if (sidebarElement) {
         sidebarElement.addEventListener('contextmenu', function(event) {
-            // Check if the target is the sidebarElement or its children
-            if (event.target === sidebarElement) {
-                createContextMenu(event); // Show the menu if clicked on the sidebarElement
+            if (sidebarElement.contains(event.target)) {
+                createContextMenu(event);
             }
         });
-    }
+    }    
 
     function showAlert() {
         if (!document.getElementById(alertId)) {
