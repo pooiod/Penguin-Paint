@@ -88,8 +88,14 @@ var sidebarcontext = [
 var corsdomains = [
     "penguinpaint.pages.dev",
     "yeetyourfiles.lol".
-    "raw.githubusercontent.com"
-]
+    "raw.githubusercontent.com",
+    "api.allorigins.win"
+];
+
+function isCorsDomain(url) {
+    var domain = new URL(url).hostname;
+    return corsdomains.includes(domain);
+}
 
 // functions for addons
 window.stageWidth = 480;
@@ -646,7 +652,7 @@ function insertAddons() {
 
     let importurl = new URLSearchParams(window.location.search).get('import');
     if (importurl) {
-        if (!importurl.startsWith("data") && !importurl.startsWith("/")){
+        if (!importurl.startsWith("data") && !importurl.startsWith("/") && !isCorsDomain(importurl)){
             importurl = "https://api.allorigins.win/raw?url=" + importurl;
         }
         setTimeout(()=>{
