@@ -328,7 +328,7 @@ function extrabuttons() { document.title = newtitle;
         var button = document.querySelector('.settings_button_2ovv0');
 
         if (window.location.hostname === "studio.penguinmod.com") {
-            document.getElementById("addonsbutton").innerHTML = "<b>Addons</b>";
+            document.getElementById("addonsbutton").innerHTML = "<b>Change addon settings</b>";
             button.addEventListener('click', function() {
                 window.location.href = "https://penguinpaint.pages.dev?addons=true";
             });
