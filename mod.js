@@ -642,7 +642,7 @@ function insertAddons() {
         if (!importurl.startsWith("data") && !importurl.startsWith("/")){
             importurl = "https://api.allorigins.win/raw?url=" + importurl;
         }
-        setTimeout(function(){
+        setTimeout(()=>{
             window.importImage("Import", importurl);
         }, 500);
     }
