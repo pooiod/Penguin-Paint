@@ -317,9 +317,12 @@ function extrabuttons() { document.title = newtitle;
         *::-webkit-scrollbar-thumb:hover {
             background-color: #eaeaea;
         }
-      .input_input-form_1Y0wX.tw-color-readout_readout_3RxI3 {
-        width: 50px !important;
-      }
+        .input_input-form_1Y0wX.tw-color-readout_readout_3RxI3 {
+            width: 50px !important;
+        }
+        div.menu-bar_menu-bar-item_oLDa-:nth-child(2) {
+            background: var(--ui-secondary, lightgrey);
+        }
     `;
     document.head.appendChild(style);    
 
@@ -500,7 +503,9 @@ function openPaint() {
         element.style.zIndex = '9999999999999999999999999999999999999999999';
         // element.style.backgroundColor = 'black';
         element.style.borderBottomLeftRadius = '15px';
-        element.style.width = "30px";
+        element.style.width = "1px";
+        element.style.paddingRight = "30px";
+        element.style.paddingTop = "5px";
         element.style.height = "30px";
     }, 3000); 
 
