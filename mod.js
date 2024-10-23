@@ -321,7 +321,7 @@ function extrabuttons() { document.title = newtitle;
             width: 50px !important;
         }
         div.menu-bar_menu-bar-item_oLDa-:nth-child(2) {
-            background: var(--ui-secondary, lightgrey);
+            background: var(--ui-secondary, lightgrey) !important;
         }
     `;
     document.head.appendChild(style);    
