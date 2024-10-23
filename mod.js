@@ -379,7 +379,7 @@ function extrabuttons() { document.title = newtitle;
             wrapper.style.padding = '0px';
             
             const modal = document.createElement('div');
-            modal.style.backgroundColor = '#fff';
+            modal.style.backgroundColor = 'var(--ui-primary, white)';
             modal.style.padding = '30px';
             modal.style.borderRadius = '10px';
             modal.style.width = '300px';
@@ -390,7 +390,6 @@ function extrabuttons() { document.title = newtitle;
             const title = document.createElement('h2');
             title.textContent = 'Select Canvas Size';
             title.style.marginBottom = '20px';
-            title.style.color = '#333';
             modal.appendChild(title);
 
             const widthInput = document.createElement('input');
