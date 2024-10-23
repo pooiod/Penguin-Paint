@@ -309,7 +309,7 @@ function extrabuttons() { document.title = newtitle;
             scrollbar-color: #fff var(--ui-tertiary, #d9e3f2);
         }
         *::-webkit-scrollbar-track {
-            background: #d9e3f2;
+            background: var(--ui-tertiary, #d9e3f2;
         }
         *::-webkit-scrollbar-thumb {
             background-color: #fff;
