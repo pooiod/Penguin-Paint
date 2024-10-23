@@ -766,7 +766,7 @@ function insertAddons() {
             reloadButton.onclick = function() {
                 showLoader();
                 location.reload();
-                setTimeout(() => loadingScreen.remove(), 4000);
+                setTimeout(() => loadingScreen.remove(), 9000);
             };
 
             const cancelButton = document.createElement('button');
