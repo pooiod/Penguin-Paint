@@ -746,7 +746,7 @@ function insertAddons() {
             alertDiv.style.display = 'flex';
             alertDiv.style.alignItems = 'center';
             alertDiv.style.justifyContent = 'space-between';
-            alertDiv.style.background = 'var(--ui-secondary, #e9f3f5)';
+            alertDiv.style.background = 'var(--ui-secondary, #f0f4f5)';
 
             const message = document.createElement('span');
             message.innerText = 'Addon settings have changed, do you want to reload and apply?';
