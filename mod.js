@@ -491,6 +491,8 @@ function openPaint() {
         element.style.position = 'fixed';
         element.style.display = 'block';
         element.style.top = '-100px';
+
+        document.querySelector('div.menu-bar_menu-bar-item_oLDa-:nth-child(2) > img:nth-child(1)').src = 'https://penguinpaint.pages.dev/icons/moon.svg';
         
         element = document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)');
         element.style.display = 'block';
@@ -498,7 +500,8 @@ function openPaint() {
         element.style.top = '0';
         element.style.right = '0';
         element.style.zIndex = '9999999999999999999999999999999999999999999';
-        element.style.backgroundColor = 'var(--ui-secondary, lightgrey)';
+        // element.style.backgroundColor = 'var(--ui-secondary, lightgrey)';
+        // element.style.backgroundColor = "transparent";
         element.style.borderBottomLeftRadius = '15px';
         element.style.width = "1px";
         element.style.paddingRight = "30px";
@@ -794,7 +797,11 @@ const waitForElement = (selector) => {
             clearInterval(checkExist);
             setTimeout(() => {
                 document.querySelector("#app > div").style.minWidth = "750px";
-                openPaint();
+                try {
+                    openPaint();
+                } catch(err) {
+                    window.fatalError(err);
+                }
                 var addonurlParams = new URLSearchParams(window.location.search);
                 if (addonurlParams.get("addons") === "true") {
                     window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
