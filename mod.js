@@ -502,7 +502,7 @@ function openPaint() {
         element.style.borderBottomLeftRadius = '15px';
         element.style.width = "1px";
         element.style.paddingRight = "30px";
-        element.style.paddingBottom = "-5px";
+        element.style.paddingBottom = "-10px";
         // element.style.paddingTop = "5px";
         element.style.height = "30px";
     }, 3000); 
