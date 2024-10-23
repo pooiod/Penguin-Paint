@@ -306,7 +306,7 @@ function extrabuttons() { document.title = newtitle;
     const style = document.createElement('style');
     style.textContent = `
         * {
-            scrollbar-color: #fff #d9e3f2;
+            scrollbar-color: #fff var(--ui-tertiary, #d9e3f2);
         }
         *::-webkit-scrollbar-track {
             background: #d9e3f2;
