@@ -842,7 +842,7 @@ const waitForElement = (selector) => {
                             } catch(err) {
                                 console.warn(err);
                                 document.querySelector('#react-tabs-2').click();
-                                alert("Unable to load extra ui");
+                                window.fatalError(err);
                             }
                         }, 2000); 
                     }
