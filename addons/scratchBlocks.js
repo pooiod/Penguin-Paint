@@ -23,7 +23,7 @@ addImageButton(
       wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
 
 	  const modal = document.createElement('div');
-	  modal.style.backgroundColor = '#fff';
+	  modal.style.backgroundColor = 'var(--ui-primary, white)';
 	  modal.style.padding = '30px';
 	  modal.style.borderRadius = '10px';
 	  modal.style.padding = '20px';
