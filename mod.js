@@ -563,8 +563,20 @@ function openPaint() {
     }
 }
 
-const originalReplaceState = history.replaceState;
+const HistoryReplaceState = history.replaceState;
 history.replaceState = function(state, title, url) {
+    setTimeout(extrabuttons, 100);
+    try {
+        var img = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp > div.selector_new-buttons_2qHDd.box_box_2jjDp > div > button > img');
+        img.src = "https://cdn-icons-png.flaticon.com/512/4211/4211763.png";
+        img.style.filter = "invert(1)";
+    } catch(err) {
+        console.warn("unable to set image src for button");
+    }
+};
+
+const HistoryPushState = history.pushState;
+history.pushState = function(state, title, url) {
     setTimeout(extrabuttons, 100);
     try {
         var img = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp > div.selector_new-buttons_2qHDd.box_box_2jjDp > div > button > img');
