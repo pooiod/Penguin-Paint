@@ -634,11 +634,11 @@ function insertAddons() {
         document.body.appendChild(script);
     });
 
-    let lastCookies = document.cookie;
+    let lastCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
     const alertId = 'cookie-alert';
 
     function checkCookies() {
-        const currentCookies = document.cookie;
+        const currentCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
 
         if (currentCookies !== lastCookies) {
             lastCookies = currentCookies;
