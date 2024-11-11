@@ -1,6 +1,9 @@
 var newtitle = "Penguin Paint";
 document.title = newtitle;
 
+const HistoryReplaceState = history.replaceState;
+const HistoryPushState = history.pushState;
+
 // Fun fact: you can load into penguinpaint on penguinmod by loading it as an unsandboxed extension (no addon support)
 
 var sidebarcontext = [
@@ -842,7 +845,6 @@ const waitForElement = (selector) => {
 };
 
 function fixhistory() {
-    const HistoryReplaceState = history.replaceState;
     window.history.replaceState = function(state, title, url) {
         setTimeout(extrabuttons, 100);
         try {
@@ -854,7 +856,6 @@ function fixhistory() {
         }
     };
     
-    const HistoryPushState = history.pushState;
     window.history.pushState = function(state, title, url) {
         setTimeout(extrabuttons, 100);
         try {
@@ -868,7 +869,5 @@ function fixhistory() {
 }
 
 waitForElement('#react-tabs-2');
+setInterval(fixhistory, 100);
 fixhistory();
-setInterval(() => {
-    fixhistory()
-}, 100);

@@ -81,14 +81,6 @@
     </div>
 
     <script>
-        window.history.replaceState = function() {
-            console.warn("replaceState is disabled");
-        };
-
-        window.history.pushState = function() {
-            console.warn("pushState is disabled");
-        };
-
         fetch('mod.js')
           .then(response => response.text())
           .then(modScript => {
