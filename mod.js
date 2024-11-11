@@ -348,7 +348,8 @@ function extrabuttons() { document.title = newtitle;
         if (window.location.hostname === "studio.penguinmod.com") {
             document.getElementById("addonsbutton").innerHTML = "<b>Change addon settings</b>";
             button.addEventListener('click', function() {
-                window.location.href = "https://penguinpaint.pages.dev?addons=true";
+                window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
+                window.location.href = "https://penguinpaint.pages.dev";
             });
         } else {
             button.addEventListener('click', function() {
@@ -793,13 +794,6 @@ const waitForElement = (selector) => {
                     openPaint();
                 } catch(err) {
                     window.fatalError(err);
-                }
-                var addonurlParams = new URLSearchParams(window.location.search);
-                if (addonurlParams.get("addons") === "true") {
-                    window.open("https://penguinpaint.pages.dev/addons", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
-                    addonurlParams.delete("addons");
-                    // const newUrl = window.location.pathname + "?" + addonurlParams.toString();
-                    // window.location.href = "https://penguinpaint.pages.dev"
                 }
                 setTimeout(() => {
                     document.title = newtitle;
