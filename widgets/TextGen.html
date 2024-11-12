@@ -217,5 +217,14 @@
     </main>
 
     <input id="dummy" name="dummy" type="hidden">
+
+    <script>
+        if (window.self === window.top) {
+            document.getElementById('download-btn').style.display = 'block';
+            document.getElementById('copy-to-clipboard-btn').style.display = 'block';
+            document.getElementById('output-svg').style.display = 'block';
+            document.getElementById('import-btn').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
