@@ -1,4 +1,3 @@
-
 window.addEventListener('message', (event) => {
     const receivedMessage = event.data;
   
@@ -6,10 +5,10 @@ window.addEventListener('message', (event) => {
         window.addImage("Text import", receivedMessage, true);
         document.body.removeChild(document.getElementById("svgtextoverlay"));
     }
-});       
+});
 
 addImageButton(
-    '//static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png',
+    '//yeetyourfiles.lol/download/d2ef001f-3c0e-4123-ab06-2722b24c6e9e',
     async () => {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
