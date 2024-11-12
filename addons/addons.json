@@ -38,5 +38,13 @@
         "authors": ["Pooiod7"],
         "note": "",
         "hidden": false
+    },
+    {
+        "id": "svgtext",
+        "name": "SVG text generator",
+        "description": "Adds an item in the \"new image\" menu to generate text with custom fonts as vector images",
+        "authors": ["Pooiod7"],
+        "note": "",
+        "hidden": false
     }
 ]
