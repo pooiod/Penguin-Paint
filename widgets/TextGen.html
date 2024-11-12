@@ -99,6 +99,10 @@
             justify-content: center;
             align-items: center;
         }
+        .content:has(#svg-render:sticky) #svg-render {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
         #output-svg {
             width: calc(100vw - 85px);
         }
