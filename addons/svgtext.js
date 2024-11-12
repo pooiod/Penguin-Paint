@@ -4,7 +4,7 @@ window.addEventListener('message', (event) => {
   
     if (receivedMessage && receivedMessage.startsWith("data:image/svg+xml;charset=utf-8,")) {
       window.addImage("Text import", receivedMessage, true);
-      document.body.removeChild(overlay);
+      document.body.removeChild(document.getElementById("svgtextoverlay"));
     }
   });       
 
@@ -18,7 +18,8 @@ addImageButton(
         overlay.style.width = '100%';
         overlay.style.height = '100%';
         overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
-        overlay.style.zIndex = '999';
+        overlay.style.zIndex = '9999';
+        overlay.id = "svgtextoverlay";
         
         const wrapper = document.createElement('div');
         wrapper.style.position = 'absolute';
