@@ -3,10 +3,10 @@ window.addEventListener('message', (event) => {
     const receivedMessage = event.data;
   
     if (receivedMessage && receivedMessage.startsWith("data:image/svg+xml;charset=utf-8,")) {
-      window.addImage("Text import", receivedMessage, true);
-      document.body.removeChild(document.getElementById("svgtextoverlay"));
+        window.addImage("Text import", receivedMessage, true);
+        document.body.removeChild(document.getElementById("svgtextoverlay"));
     }
-  });       
+});       
 
 addImageButton(
     '//static-00.iconduck.com/assets.00/no-image-icon-512x512-lfoanl0w.png',
