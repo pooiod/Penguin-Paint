@@ -8,7 +8,7 @@ window.addEventListener('message', (event) => {
 });
 
 addImageButton(
-    '//yeetyourfiles.lol/download/d2ef001f-3c0e-4123-ab06-2722b24c6e9e',
+    '//yeetyourfiles.lol/download/1e49f163-14b0-4166-a98a-d47a5be84d7d',
     async () => {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
