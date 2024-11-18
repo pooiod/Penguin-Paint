@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penguin Paint</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.png">
+
+    <meta property="og:title" content="Penguin Paint" />
+    <meta property="og:description" content="A user-friendly image editor for creating and editing SVG and bitmap images directly in your browser." />
+    <meta name="description" content="A user-friendly image editor for creating and editing SVG and bitmap images directly in your browser." />
+    <meta property="og:image" content="https://penguinpaint.pages.dev/frontpage.png" />
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #00c3ff;
+            font-family: Arial, sans-serif;
+        }
+
+        #paintLoadingScreen {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #loadingImage {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            mask: url('loader.gif') no-repeat center / contain;
+            -webkit-mask: url('loader.gif') no-repeat center / contain;
+            animation: skewAnimation 2s ease-in-out infinite;
+        }
+
+        @keyframes skewAnimation {
+            0% {
+                transform: skew(-2deg);
+            }
+            50% {
+                transform: skew(2deg);
+            }
+            100% {
+                transform: skew(-2deg);
+            }
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #fff;
+            animation: titleAnimation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes titleAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="paintLoadingScreen">
+        <div id="loadingImage"></div>
+        <h1>Loading Paint</h1>
+    </div>
+
+    <script>
+        fetch('mod.js')
+          .then(response => response.text())
+          .then(modScript => {
+
+            if (!modScript) {
+                var error = "Failed to load paint scripts";
+                modScript = `setTimeout(() => {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background-color:#00c3ff;font-size:24px;color:white;">${error}</div>';
+                }, 500);`;
+            }
+
+            const scriptElement = document.createElement('script');
+            scriptElement.text = modScript;
+            document.head.appendChild(scriptElement);
+            
+            return fetch(window.location.pathname === '/'?'https://api.allorigins.win/get?url=' + encodeURIComponent('https://studio.penguinmod.com/editor.html'):"/404");
+          })
+          .then(response => response.json())
+          .then(data => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data.contents, 'text/html');
+
+            const meta = doc.createElement('meta');
+            meta.setAttribute('name', 'theme-color');
+            meta.setAttribute('content', '#ffffff');
+            doc.head.appendChild(meta);
+
+            const base = doc.createElement('base');
+            base.href = 'https://studio.penguinmod.com/';
+            doc.head.appendChild(base);
+
+            const link = doc.createElement('link');
+            link.rel = 'manifest';
+            link.href = 'https://penguinpaint.pages.dev/manifest.json';
+            doc.head.appendChild(link);
+
+            document.open();
+            document.write(doc.documentElement.outerHTML);
+            document.close();
+          }).catch(function(){
+            var error = "Failed to load PenguinMod core";
+            document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;background-color:#00c3ff;font-size:24px;color:white;">${error}</div>`;
+          });
+    </script>
+</body>
+</html>
