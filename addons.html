@@ -1,108 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PenguinMod Paint Addons</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Addon Settings - PenguinPaint</title>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #fff;
-            font-family: Arial, sans-serif;
-        }
-
-        #paintLoadingScreen {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        #loadingImage {
-            width: 100px;
-            height: 100px;
-            background-color: #00c3ff;
-            mask: url('loader.gif') no-repeat center / contain;
-            -webkit-mask: url('loader.gif') no-repeat center / contain;
-            animation: skewAnimation 2s ease-in-out infinite;
-        }
-
-        @keyframes skewAnimation {
-            0% {
-                transform: skew(-2deg);
-            }
-            50% {
-                transform: skew(2deg);
-            }
-            100% {
-                transform: skew(-2deg);
-            }
-        }
-
-        h1 {
-            margin-top: 20px;
-            color: #00c3ff;
-            animation: titleAnimation 1.5s ease-in-out infinite;
-        }
-
-        @keyframes titleAnimation {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-2px);
-            }
-            100% {
-                transform: translateY(0);
-            }
+        body[splash-theme="dark"]:not(.tw-loaded) {
+            background: #111;
         }
     </style>
 </head>
-
 <body>
-    <div id="paintLoadingScreen">
-        <div id="loadingImage"></div>
-        <h1>Loading Addons</h1>
-    </div>
-
     <script>
-        fetch('addons.js')
-          .then(response => response.text())
-          .then(modScript => {
-
-            if (!modScript) {
-                var error = "Failed to filter addons";
-                modScript = `setTimeout(() => {
-                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background-color:#fff;font-size:24px;color:#00c3ff;">${error}</div>';
-                }, 500);`;
+        (function() {
+            try {
+                var localTheme = localStorage.getItem('tw:theme');
+            } catch (e) {}
+            if (localTheme ? localTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches) { 
+                document.body.setAttribute('splash-theme', 'dark');
             }
-
-            const scriptElement = document.createElement('script');
-            scriptElement.text = modScript;
-            document.head.appendChild(scriptElement);
-            
-            return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://studio.penguinmod.com/addons.html'));
-          })
-          .then(response => response.json())
-          .then(data => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(data.contents, 'text/html');
-            const base = doc.createElement('base');
-            base.href = 'https://studio.penguinmod.com/';
-            doc.head.appendChild(base);
-            document.open();
-            document.write(doc.documentElement.outerHTML);
-            document.close();
-          }).catch(function(){
-            var error = "Failed to load addons";
-            document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;background-color:#fff;font-size:24px;color:#00c3ff;">${error}</div>`;
-          });
+        })();
     </script>
+    <div id="app"></div>
+    <script src="js/vendors~addon-settings~credits~editor~embed~fullscreen~player~playground.5bff08c5b1f5519a598b.js"></script>
+    <script src="js/addon-settings~addons~editor~fullscreen~player~playground.e92364c172e7f3ce8de8.js"></script>
+    <script src="js/addon-settings.220dfba09b08adbfc589.js"></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8e4b9f032ab44ccc","version":"2024.10.5","r":1,"token":"329f722c06034bc58b8b2eea66ca477e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
+    <script src="https://penguinpaint.pages.dev/addons.js"></script>
 </body>
 </html>
