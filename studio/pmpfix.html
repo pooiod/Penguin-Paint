@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-
-<!-- A hacky way to load unsandboxed extensions in penguinmod -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>PenguinPaint</title>
-    <link rel="icon" type="image/x-icon" href="https://studio.penguinmod.com/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/icons/favicon.png">
 
     <style>
         body {
@@ -104,7 +101,7 @@
                 const extensionBlob = await extensionResponse.blob();
                 var extensionDataUri = "https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/main.js";
 
-                const zipUrl = 'https://yeetyourfiles.lol/file/a1ea0574/Project.zip';
+                const zipUrl = 'https://yeetyourfiles.lol/file/b54b0544/Project.zip';
                 const zipResponse = await fetch(zipUrl);
                 const zipBlob = await zipResponse.blob();
                 const zip = await JSZip.loadAsync(zipBlob);
@@ -174,8 +171,13 @@
                     const response = JSON.parse(xhr.responseText);
                     const fileId = response.fileUrl;
                     const downloadUrl = `https://yeetyourfiles.lol${fileId}`;
+                    var newprams = new URLSearchParams(window.location.search).toString();
+                    if (newprams) {
+                      newprams = "&" + newprams;
+                    }
 
-                    const url = `https://studio.penguinmod.com/editor.html?project_url=${encodeURIComponent(downloadUrl)}`;
+                    const url = `https://studio.penguinmod.com/editor.html?project_url=${encodeURIComponent(downloadUrl) + newprams}`;
+                    // window.open(url);
                     window.location.href = url;
                 } else {
                     console.error('Upload failed with status:', xhr.status);
