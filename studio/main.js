@@ -347,8 +347,7 @@ function extrabuttons() { document.title = newtitle;
 
         if (window.location.hostname === "studio.penguinmod.com") {
             button.addEventListener('click', function() {
-                window.open("/addons.html#penguinpaint", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
-                window.location.href = "https://penguinpaint.pages.dev";
+                window.open("/addons.html", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
             });
         }
 
@@ -491,7 +490,7 @@ function openPaint() {
         element.style.display = 'block';
         element.style.top = '-100px';
 
-        document.querySelector('div.menu-bar_menu-bar-item_oLDa-:nth-child(2) > img:nth-child(1)').src = 'https://penguinpaint.pages.dev/icons/moon.svg';
+        document.querySelector('div.menu-bar_menu-bar-item_oLDa-:nth-child(2) > img:nth-child(1)').src = 'https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/icons/moon.svg';
         
         element = document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)');
         element.style.display = 'block';
@@ -520,7 +519,7 @@ function openPaint() {
     var elementsToHide = [
         '#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp',
         '#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_alerts-container_15BWp.box_box_2jjDp',
-        '#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_body-wrapper_-N0sA.box_box_2jjDp.sa-stage-hidden > div > div.gui_editor-wrapper_2DYcj.box_box_2jjDp > div.backpack_backpack-container_2_wGr',
+        // '#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_body-wrapper_-N0sA.box_box_2jjDp.sa-stage-hidden > div > div.gui_editor-wrapper_2DYcj.box_box_2jjDp > div.backpack_backpack-container_2_wGr',
         '#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_body-wrapper_-N0sA.box_box_2jjDp.sa-stage-hidden > div > div.gui_editor-wrapper_2DYcj.box_box_2jjDp > div.gui_tabs_AgmuP > ul'
     ];
     
@@ -584,8 +583,8 @@ function showLoader() {
             width: 100px;
             height: 100px;
             background-color: #fff;
-            mask: url('https://penguinpaint.pages.dev/loader.gif') no-repeat center / contain;
-            -webkit-mask: url('https://penguinpaint.pages.dev/loader.gif') no-repeat center / contain;
+            mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
+            -webkit-mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
             animation: skewAnimation 2s ease-in-out infinite;
         }
         @keyframes skewAnimation {
@@ -618,28 +617,224 @@ function showLoader() {
 setTimeout(showLoader, 100);
 
 function insertAddons() {
-    const enabledLinks = document.cookie
-        .split('; ')
-        .filter(cookie => cookie.startsWith('card_') && cookie.endsWith('=on'))
-        .map(cookie => decodeURIComponent(cookie.split('=')[0].slice(5)));
+    // const enabledLinks = document.cookie
+    //     .split('; ')
+    //     .filter(cookie => cookie.startsWith('card_') && cookie.endsWith('=on'))
+    //     .map(cookie => decodeURIComponent(cookie.split('=')[0].slice(5)));
 
-    enabledLinks.forEach(link => {
-        const script = document.createElement('script');
-        script.src = link;
-        document.body.appendChild(script);
-    });
+    // enabledLinks.forEach(link => {
+    //     const script = document.createElement('script');
+    //     script.src = link;
+    //     document.body.appendChild(script);
+    // });
 
-    let lastCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
-    const alertId = 'cookie-alert';
-
-    function checkCookies() {
-        const currentCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
-
-        if (currentCookies !== lastCookies) {
-            lastCookies = currentCookies;
-            showAlert();
+    (()=>{
+        // Backpack addon
+        var targetBackpackElement = document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_body-wrapper_-N0sA.box_box_2jjDp.sa-stage-hidden > div > div.gui_editor-wrapper_2DYcj.box_box_2jjDp');
+        if (targetBackpackElement) {
+            // targetBackpackElement.style.transform = 'scaleY(-1)';
+            // const children = targetBackpackElement.children;
+            // for (let child of children) {
+            //     child.style.transform = 'scaleY(-1)';
+            // }
+            if (document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)')) {
+                setTimeout(function(){
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.paddingBottom = "6px";
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.height = "20px";
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.paddingTop = "1px";
+                }, 3000);
+                setTimeout(function(){
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.paddingBottom = "6px";
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.height = "20px";
+                    document.querySelector('#app > div > div > div.gui_page-wrapper_1cgy0.box_box_2jjDp > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div.menu-bar_file-group_1_CHX > div:nth-child(2)').style.paddingTop = "1px";
+                }, 2100);
+            }
+        } else {
+            window.fatalError("Unable to load editor backpack");
         }
-    }
+
+        //SVG text addon
+        window.addEventListener('message', (event) => {
+            const receivedMessage = event.data;
+          
+            if (receivedMessage && receivedMessage.startsWith("data:image/svg+xml;charset=utf-8,")) {
+                window.addImage("Text import", receivedMessage, true);
+                document.body.removeChild(document.getElementById("svgtextoverlay"));
+            }
+        });
+        
+        addImageButton(
+            '//yeetyourfiles.lol/download/1e49f163-14b0-4166-a98a-d47a5be84d7d',
+            async () => {
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
+                overlay.style.zIndex = '9999';
+                overlay.id = "svgtextoverlay";
+                
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'absolute';
+                wrapper.style.top = '50%';
+                wrapper.style.left = '50%';
+                wrapper.style.transform = 'translate(-50%, -50%)';
+                wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
+                wrapper.style.borderRadius = '13px';
+                wrapper.style.padding = '0px';
+                
+                const modal = document.createElement('div');
+                modal.style.backgroundColor = 'var(--ui-primary, white)';
+                modal.style.padding = '0px';
+                modal.style.borderRadius = '10px';
+                modal.style.width = '70vw';
+                modal.style.height = '70vh';
+                modal.style.textAlign = 'center';
+                
+                wrapper.appendChild(modal);
+                
+                // Create iframe element
+                const iframe = document.createElement('iframe');
+                iframe.src = '//p7scratchextensions.pages.dev/extras/html/SVGtext';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none'; 
+                iframe.style.borderRadius = '10px';
+                modal.appendChild(iframe);
+                
+                overlay.appendChild(wrapper);
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', (e) => {
+                  if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                  }
+                });
+            }
+        );   
+        
+        // URL import addon
+        addImageButton(
+            '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
+            async () => {
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
+                overlay.style.zIndex = '999';
+          
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'absolute';
+                wrapper.style.top = '50%';
+                wrapper.style.left = '50%';
+                wrapper.style.transform = 'translate(-50%, -50%)';
+                wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
+                wrapper.style.borderRadius = '13px';
+                wrapper.style.padding = '0px';
+          
+                const modal = document.createElement('div');
+                modal.style.backgroundColor = 'var(--ui-primary, white)';
+                modal.style.padding = '30px';
+                modal.style.borderRadius = '10px';
+                modal.style.width = '300px';
+                modal.style.textAlign = 'center';
+          
+                wrapper.appendChild(modal);
+          
+                const title = document.createElement('h2');
+                title.textContent = 'Provide an image url';
+                title.style.marginBottom = '20px';
+                modal.appendChild(title);
+          
+                const promptInput = document.createElement('input');
+                promptInput.type = 'text';
+                promptInput.placeholder = 'https://example.com/randomimage.png';
+                promptInput.style.margin = '10px 0';
+                promptInput.style.padding = '10px';
+                promptInput.style.width = 'calc(100% - 20px)';
+                promptInput.style.border = '1px solid #ccc';
+                promptInput.style.borderRadius = '5px';
+                modal.appendChild(promptInput);
+                setTimeout(() => promptInput.focus(), 100);
+          
+                const buttonContainer = document.createElement('div');
+                buttonContainer.style.display = 'flex';
+                buttonContainer.style.justifyContent = 'space-between';
+                buttonContainer.style.marginTop = '20px';
+          
+                const cancelButton = document.createElement('button');
+                cancelButton.textContent = 'Cancel';
+                cancelButton.style.padding = '10px 15px';
+                cancelButton.style.backgroundColor = '#dc3545';
+                cancelButton.style.color = '#fff';
+                cancelButton.style.border = 'none';
+                cancelButton.style.cursor = 'pointer';
+                cancelButton.style.borderRadius = '5px';
+                cancelButton.style.transition = 'background-color 0.3s';
+                cancelButton.addEventListener('mouseenter', () => {
+                    cancelButton.style.backgroundColor = '#c82333';
+                });
+                cancelButton.addEventListener('mouseleave', () => {
+                    cancelButton.style.backgroundColor = '#dc3545';
+                });
+                buttonContainer.appendChild(cancelButton);
+          
+                const confirmButton = document.createElement('button');
+                confirmButton.textContent = 'Import';
+                confirmButton.style.padding = '10px 15px';
+                confirmButton.style.backgroundColor = '#28a745';
+                confirmButton.style.color = '#fff';
+                confirmButton.style.border = 'none';
+                confirmButton.style.cursor = 'pointer';
+                confirmButton.style.borderRadius = '5px';
+                confirmButton.style.transition = 'background-color 0.3s';
+                confirmButton.addEventListener('mouseenter', () => {
+                    confirmButton.style.backgroundColor = '#218838';
+                });
+                confirmButton.addEventListener('mouseleave', () => {
+                    confirmButton.style.backgroundColor = '#28a745';
+                });
+                buttonContainer.appendChild(confirmButton);
+          
+                modal.appendChild(buttonContainer);
+                overlay.appendChild(wrapper);
+                document.body.appendChild(overlay);
+          
+                confirmButton.addEventListener('click', () => {
+                    var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
+          
+                    document.body.removeChild(overlay);
+        
+                    if (!url.startsWith("data") && !url.startsWith("/")){
+                        url = "https://api.allorigins.win/raw?url=" + url;
+                    }
+        
+                    window.importImage("Import", url)
+                });
+          
+                cancelButton.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+            }
+        );        
+    })()
+
+    // let lastCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
+    // const alertId = 'cookie-alert';
+
+    // function checkCookies() {
+    //     const currentCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
+
+    //     if (currentCookies !== lastCookies) {
+    //         lastCookies = currentCookies;
+    //         showAlert();
+    //     }
+    // }
 
     let importurl = new URLSearchParams(window.location.search).get('import');
     if (importurl) {
@@ -776,7 +971,7 @@ function insertAddons() {
         }
     }
 
-    setInterval(checkCookies, 1000);
+    // setInterval(checkCookies, 1000);
 }
 
 const waitForElement = (selector) => {
@@ -804,7 +999,7 @@ const waitForElement = (selector) => {
                         const faviconlink = document.createElement('link');
                         faviconlink.rel = 'icon';
                         faviconlink.type = 'image/x-icon';
-                        faviconlink.href = 'https://penguinpaint.pages.dev/icons/favicon.png';
+                        faviconlink.href = 'https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/icons/favicon.png';
                         document.head.appendChild(faviconlink);
                         insertAddons();
                     } catch(err) {
