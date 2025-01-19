@@ -864,6 +864,19 @@
                 }
                 setTimeout(()=>{
                     window.importImage("Import", importurl);
+                    const checkInterval = setInterval(() => {
+                        if (document.querySelectorAll('.react-contextmenu.context-menu_context-menu_2SJM-').length > 7) {
+                            clearInterval(checkInterval);
+                            if (document.getElementById("paintLoadingScreen")) {
+                                loadingScreen.remove();
+                            }
+                        }
+                    }, 500);                      
+                    setTimeout(()=>{
+                        if (document.getElementById("paintLoadingScreen")) {
+                            loadingScreen.remove();
+                        }
+                    }, 9000);
                 }, 500);
             }
         
@@ -1009,7 +1022,9 @@
                         setTimeout(() => {
                             document.title = newtitle;
                             document.querySelector('#react-tabs-2').click();
-                            loadingScreen.remove();
+                            if (!new URL(window.location.href).searchParams.get('import')) {
+                                loadingScreen.remove();
+                            }
                             try {
                                 document.querySelector('#react-tabs-2').click();
                                 extrabuttons();
@@ -1089,7 +1104,6 @@
     }, 100);
     setTimeout(function() {
         skipload = true;
-        HistoryReplaceState({}, '', window.location.pathname + (new URLSearchParams(window.location.search).delete('project_url') || window.location.search));
     }, 2000);
     
     Scratch.extensions.register(new PenguinPaint());

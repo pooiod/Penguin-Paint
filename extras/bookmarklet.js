@@ -3,7 +3,7 @@ function addAltClickListener(img) {
         if (e.altKey) {
             e.preventDefault();
             const imageUrl = img.src;
-            window.open(`https://penguinpaint.pages.dev/?import=${encodeURIComponent(imageUrl)}`, '_blank');
+            window.open(`https://penguinpaint.statichost.app?import=${encodeURIComponent(imageUrl)}`, '_blank');
         }
     });
 }
