@@ -75,6 +75,8 @@
     function LoadPenguinPaintMod() {
         var newtitle = "Penguin Paint";
         document.title = newtitle;
+
+        var paintLoadingScreen = document.getElementById("paintLoadingScreen");
         
         var HistoryReplaceState = history.replaceState;
         var HistoryPushState = history.pushState;
