@@ -104,7 +104,7 @@
                 const extensionBlob = await extensionResponse.blob();
                 var extensionDataUri = "https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/main.js";
 
-                const zipUrl = 'https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/Project.zip';
+                const zipUrl = 'https://yeetyourfiles.lol/file/a1ea0574/Project.zip';
                 const zipResponse = await fetch(zipUrl);
                 const zipBlob = await zipResponse.blob();
                 const zip = await JSZip.loadAsync(zipBlob);
@@ -152,7 +152,7 @@
                 return;
             }
 
-            document.getElementById("progressheader").removeAttribute("hidden");
+            // document.getElementById("progressheader").removeAttribute("hidden");
 
             const formData = new FormData();
             formData.append('file', file);
