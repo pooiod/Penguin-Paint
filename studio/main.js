@@ -1077,7 +1077,13 @@
         fixhistory();
     }
 
-    setTimeout(LoadPenguinPaintMod, 5000);
-
+    const checkElement = setInterval(() => {
+        const element = document.querySelector('.scratchCategoryMenuItemLabel');
+        if (element && element.textContent === 'Penguin Paint') {
+            clearInterval(checkElement);
+            LoadPenguinPaintMod();
+        }
+    }, 1000);
+    
     Scratch.extensions.register(new PenguinPaint());
 })(Scratch);
