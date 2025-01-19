@@ -33,7 +33,7 @@
                 align-items: center;
                 text-align: center;
                 background-color: #00c3ff;
-                z-index: 99999999999999999999999999999;
+                z-index: 999;
             }
             #loadingImage {
                 width: 100px;
