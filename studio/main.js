@@ -26,7 +26,7 @@
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 30%;
+                height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -1079,14 +1079,15 @@
         fixhistory();
     }
 
-    // const checkElement = setInterval(() => {
-    //     const element = document.querySelector('.scratchCategoryMenuItemLabel');
-    //     if (element && element.textContent === 'Penguin Paint') {
-    //         clearInterval(checkElement);
-    //         LoadPenguinPaintMod();
-    //     }
-    // }, 100);
-    setTimeout(LoadPenguinPaintMod, 3000);
+    const checkElement = setInterval(() => {
+        const element = document.querySelector('.scratchCategoryMenuItemLabel');
+        if (element && element.textContent === 'Penguin Paint') {
+            clearInterval(checkElement);
+            alert("load")
+            LoadPenguinPaintMod();
+        }
+    }, 100);
+    // setTimeout(LoadPenguinPaintMod, 2000);
     
     Scratch.extensions.register(new PenguinPaint());
 })(Scratch);
