@@ -1083,7 +1083,7 @@
             clearInterval(checkElement);
             LoadPenguinPaintMod();
         }
-    }, 1000);
+    }, 100);
     
     Scratch.extensions.register(new PenguinPaint());
 })(Scratch);
