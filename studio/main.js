@@ -1084,7 +1084,6 @@
         const element = document.querySelector('.scratchCategoryMenuItemLabel');
         if ((element && element.textContent === 'Penguin Paint') || skipload) {
             clearInterval(checkElement);
-            alert("load")
             LoadPenguinPaintMod();
         }
     }, 100);
