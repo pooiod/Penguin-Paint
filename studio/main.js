@@ -17,6 +17,8 @@
     var HistoryReplaceState = history.replaceState;
     var HistoryPushState = history.pushState;
 
+    // https://penguinpaint.statichost.app
+
     var loadingScreen;
     function showLoader() {
         var style = document.createElement('style');
@@ -77,9 +79,6 @@
         document.title = newtitle;
 
         var paintLoadingScreen = document.getElementById("paintLoadingScreen");
-        
-        var HistoryReplaceState = history.replaceState;
-        var HistoryPushState = history.pushState;
 
         var sidebarcontext = [
             {
@@ -1081,6 +1080,7 @@
 
     var skipload = false;
     const checkElement = setInterval(() => {
+        document.title = newtitle;
         const element = document.querySelector('.scratchCategoryMenuItemLabel');
         if ((element && element.textContent === 'Penguin Paint') || skipload) {
             clearInterval(checkElement);
@@ -1089,6 +1089,7 @@
     }, 100);
     setTimeout(function() {
         skipload = true;
+        HistoryReplaceState({}, '', window.location.pathname + (new URLSearchParams(window.location.search).delete('project_url') || window.location.search));
     }, 2000);
     
     Scratch.extensions.register(new PenguinPaint());
