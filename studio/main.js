@@ -1077,13 +1077,14 @@
         fixhistory();
     }
 
-    const checkElement = setInterval(() => {
-        const element = document.querySelector('.scratchCategoryMenuItemLabel');
-        if (element && element.textContent === 'Penguin Paint') {
-            clearInterval(checkElement);
-            LoadPenguinPaintMod();
-        }
-    }, 100);
+    // const checkElement = setInterval(() => {
+    //     const element = document.querySelector('.scratchCategoryMenuItemLabel');
+    //     if (element && element.textContent === 'Penguin Paint') {
+    //         clearInterval(checkElement);
+    //         LoadPenguinPaintMod();
+    //     }
+    // }, 100);
+    setTimeout(LoadPenguinPaintMod, 3000);
     
     Scratch.extensions.register(new PenguinPaint());
 })(Scratch);
