@@ -5,7 +5,8 @@
 > **Notice:** The normal PenguinPaint build is currently unusable on the main domain due to a false phishing report. <br>
 > But you can still use it without special addon configs here: https://penguinpaint.statichost.app
 
-[![](frontpage.svg)](https://penguinpaint.statichost.app?import=https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/frontpage.svg "penguinpaint.pages.dev")<br>
+<!-- ?import=https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/frontpage.svg -->
+[![](frontpage.svg)](https://penguinpaint.statichost.app "penguinpaint.pages.dev")<br>
 <sub>- This image was made in Penguin Paint</sub>
 
 ## Overview
