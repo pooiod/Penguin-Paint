@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PenguinPaint</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/icons/favicon.png">
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #00c3ff;
+            font-family: Arial, sans-serif;
+        }
+
+        #paintLoadingScreen {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #loadingImage {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
+            -webkit-mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
+            animation: skewAnimation 2s ease-in-out infinite;
+        }
+
+        @keyframes skewAnimation {
+            0% {
+                transform: skew(-2deg);
+            }
+            50% {
+                transform: skew(2deg);
+            }
+            100% {
+                transform: skew(-2deg);
+            }
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #fff;
+            animation: titleAnimation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes titleAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="paintLoadingScreen">
+        <div id="loadingImage"></div>
+        <h1>Loading Paint</h1>
+    </div>
+
+    <script>
+        fetch('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/pmpfix.html')
+            .then(response => response.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            });
+    </script>
+</body>
+</html>
