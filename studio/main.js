@@ -1077,7 +1077,7 @@
         fixhistory();
     }
 
-    setTimeout(LoadPenguinPaintMod, 1000);
+    setTimeout(LoadPenguinPaintMod, 5000);
 
     Scratch.extensions.register(new PenguinPaint());
 })(Scratch);
