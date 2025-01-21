@@ -907,7 +907,7 @@
                 addImageButton(
                     '//yeetyourfiles.lol/download/1e49f163-14b0-4166-a98a-d47a5be84d7d',
                     async () => {
-                        ShowIframe("'//p7scratchextensions.pages.dev/extras/html/SVGtext", "SVG Text Importer")
+                        ShowIframe("//p7scratchextensions.pages.dev/extras/html/SVGtext", "SVG Text Importer")
                     }
                 );   
                 
