@@ -19,7 +19,7 @@
 
     // https://penguinpaint.statichost.app
 
-    function ShowIframe(url, width = "50%", height = "50%") {
+    function ShowIframe(url, width, height) {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -32,8 +32,8 @@
         
         const wrapper = document.createElement('div');
         wrapper.style.position = 'absolute';
-        wrapper.style.top = width;
-        wrapper.style.left = height;
+        wrapper.style.top = "50%";
+        wrapper.style.left = "50%";
         wrapper.style.transform = 'translate(-50%, -50%)';
         wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
         wrapper.style.borderRadius = '13px';
@@ -43,8 +43,8 @@
         modal.style.backgroundColor = 'var(--ui-primary, white)';
         modal.style.padding = '0px';
         modal.style.borderRadius = '10px';
-        modal.style.width = '70vw';
-        modal.style.height = '70vh';
+        modal.style.width = width || '70vw';
+        modal.style.height = height || '70vh';
         modal.style.textAlign = 'center';
         
         wrapper.appendChild(modal);
