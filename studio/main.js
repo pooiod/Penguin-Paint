@@ -39,7 +39,7 @@
         wrapper.style.borderRadius = '13px';
         wrapper.style.padding = '0px';
         wrapper.style.width = width || '70vw';
-        wrapper.style.height = height || '70vh';
+        wrapper.style.height = height || '80vh';
         
         const modal = document.createElement('div');
         modal.style.backgroundColor = 'var(--ui-primary, white)';
@@ -356,7 +356,7 @@
                                         const form = document.createElement('form');
                                         form.method = 'POST';
                                         form.action = 'https://ezgif.com/maker';
-                                        ShowIframe("https://ezgif.com", "GIF Exporter", "70vw", "90vh");
+                                        ShowIframe("https://ezgif.com", "GIF Exporter", "80vw", "90vh");
                                         form.target = 'WidgetIframe';
 
                                         const input = document.createElement('input');
@@ -952,7 +952,7 @@
                         promptInput.placeholder = 'https://example.com/randomimage.png';
                         promptInput.style.margin = '10px 0';
                         promptInput.style.padding = '10px';
-                        promptInput.style.width = 'calc(100% - 20px)';
+                        promptInput.style.width = 'calc(100% - 30px)';
                         promptInput.style.border = '1px solid #ccc';
                         promptInput.style.borderRadius = '5px';
                         modal.appendChild(promptInput);
