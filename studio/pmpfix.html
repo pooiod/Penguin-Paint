@@ -123,7 +123,13 @@
                 const updatedZipBlob = await zip.generateAsync({ type: 'blob' });
 
                 setTimeout(function(){
-                    uploadFile(updatedZipBlob);
+                    // uploadFile(updatedZipBlob);
+                    var newprams = new URLSearchParams(window.location.search).toString();
+                    if (newprams) {
+                      newprams = "&" + newprams;
+                    }
+
+                    const url = `https://studio.penguinmod.com/editor.html?project_url=https://studio.penguinmod.com/editor.html?project_url=https://yeetyourfiles.lol/file/b8cbb859/blob${newprams}`;
                 }, 1000);
             } catch (error) {
                 console.error('Error processing the project:', error);
@@ -176,7 +182,7 @@
                       newprams = "&" + newprams;
                     }
 
-                    const url = `https://studio.penguinmod.com/editor.html?project_url=${encodeURIComponent(downloadUrl) + newprams}`;
+                    const url = `https://studio.penguinmod.com/editor.html?project_url=${newprams}`;
                     // window.open(url);
                     window.location.href = url;
                 } else {
