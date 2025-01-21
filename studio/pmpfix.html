@@ -130,7 +130,18 @@
                     }
 
                     const url = `https://studio.penguinmod.com/editor.html?project_url=https://yeetyourfiles.lol/file/b8cbb859/blob${newprams}`;
-                    window.location.href = url;
+                    // window.location.href = url;
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = url;
+                    iframe.style.position = 'fixed';
+                    iframe.style.top = '0';
+                    iframe.style.left = '0';
+                    iframe.style.width = '100vw';
+                    iframe.style.height = '100vh';
+                    iframe.style.border = 'none';
+                    document.body.appendChild(iframe);
+
                 }, 10);
             } catch (error) {
                 console.error('Error processing the project:', error);
