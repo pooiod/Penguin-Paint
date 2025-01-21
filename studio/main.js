@@ -180,6 +180,9 @@
                         if (typeof saveAs === 'undefined') {
                             await loadScript('https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js');
                         }
+                        if (typeof gifshot === 'undefined') {
+                            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.3.2/gifshot.min.js');
+                        }
                     }
                     
                     async function exportSpritesToZip() {
@@ -232,42 +235,25 @@
                     
                         zip.generateAsync({ type: "blob" })
                             .then(function (content) {
-function convertBlobToGifAndSave(blob) {
-    const fps = parseInt(window.prompt("Enter FPS (default 10):", "10")) || 10;
+                                function openEzgifWithBlob(blob) {
+                                        const url = URL.createObjectURL(blob);
+                                        const form = document.createElement('form');
+                                        form.method = 'POST';
+                                        form.action = 'https://ezgif.com/maker';
+                                        form.target = '_blank';
+                                    
+                                        const input = document.createElement('input');
+                                        input.type = 'hidden';
+                                        input.name = 'new-image-url';
+                                        input.value = url;
+                                    
+                                        form.appendChild(input);
+                                        document.body.appendChild(form);
+                                        form.submit();
+                                        document.body.removeChild(form);
+                                }                                  
 
-    const reader = new FileReader();
-    reader.onload = async function(event) {
-        const zip = await JSZip.loadAsync(event.target.result);
-        const files = Object.keys(zip.files).filter(file => file.match(/\.(png|jpg|jpeg)$/i)).sort();
-        
-        const images = await Promise.all(files.map(file => zip.files[file].async("blob").then(URL.createObjectURL)));
-        
-        const gif = new GIF({
-            workers: 2,
-            workerScript: 'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js'
-        });
-
-        for (const imgSrc of images) {
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            await new Promise(resolve => {
-                img.onload = () => {
-                    gif.addFrame(img, { delay: 1000 / fps });
-                    resolve();
-                };
-            });
-        }
-
-        gif.on('finished', function(blob) {
-            saveAs(blob, "export.gif");
-        });
-
-        gif.render();
-    };
-    reader.readAsArrayBuffer(blob);
-}
-
-                                convertBlobToGifAndSave(content);
+                                openEzgifWithBlob(content);
                             });
                     }
                     
