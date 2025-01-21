@@ -19,7 +19,7 @@
 
     // https://penguinpaint.statichost.app
 
-    function ShowIframe(url, title, width, height) {
+    function ShowIframe(url, pageTitle, width, height) {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -65,7 +65,7 @@
         title.style.fontSize = '24px';
         title.style.borderTopLeftRadius = '10px';
         title.style.borderTopRightRadius = '10px';        
-        title.innerHTML = title || url || "Widget";
+        title.innerHTML = pageTitle || url || "Widget";
         
         const iframe = document.createElement('iframe');
         iframe.src = url;
@@ -84,7 +84,7 @@
         closeButton.classList.add('close-button_close-button_lOp2G', 'close-button_large_2oadS');
         closeButton.setAttribute('role', 'button');
         closeButton.setAttribute('tabindex', '0');
-        closeButton.innerHTML = '<img class="close-button_close-icon_HBCuO" src="static/assets/cb666b99d3528f91b52f985dfb102afa.svg">';
+        closeButton.innerHTML = '<img class="close-button_close-icon_HBCuO" src="data:image/svg+xml,%3Csvg%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%207.48%207.48%22%3E%3Cpath%20d%3D%22M3.74%206.48V1M1%203.74h5.48%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-linecap%3Around%3Bstroke-linejoin%3Around%3Bstroke-width%3A2px%22%2F%3E%3C%2Fsvg%3E">';
         closeButton.style.position = 'absolute';
         closeButton.style.top = '50%';
         closeButton.style.right = '10px';
