@@ -19,7 +19,7 @@
 
     // https://penguinpaint.statichost.app
 
-    function ShowIframe(url, width, height) {
+    function ShowIframe(url, title, width, height) {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -38,37 +38,74 @@
         wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
         wrapper.style.borderRadius = '13px';
         wrapper.style.padding = '0px';
+        wrapper.style.width = width || '70vw';
+        wrapper.style.height = height || '70vh';
         
         const modal = document.createElement('div');
         modal.style.backgroundColor = 'var(--ui-primary, white)';
         modal.style.padding = '0px';
         modal.style.borderRadius = '10px';
-        modal.style.width = width || '70vw';
-        modal.style.height = height || '70vh';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
         modal.style.textAlign = 'center';
         
         wrapper.appendChild(modal);
+    
+        const title = document.createElement('div');
+        title.style.position = 'absolute';
+        title.style.top = '0';
+        title.style.left = '0';
+        title.style.width = '100%';
+        title.style.height = '50px';
+        title.style.backgroundColor = 'rgb(0, 195, 255)';
+        title.style.display = 'flex';
+        title.style.justifyContent = 'center';
+        title.style.alignItems = 'center';
+        title.style.color = 'white';
+        title.style.fontSize = '24px';
+        title.style.borderTopLeftRadius = '10px';
+        title.style.borderTopRightRadius = '10px';        
+        title.innerHTML = title || url || "Widget";
         
         const iframe = document.createElement('iframe');
         iframe.src = url;
         iframe.style.width = '100%';
-        iframe.style.height = '100%';
+        iframe.style.height = `calc(100% - 50px)`;
+        iframe.style.marginTop = '50px';
         iframe.style.border = 'none'; 
         iframe.id = "WidgetIframe";
         iframe.name = 'WidgetIframe';
-        iframe.style.borderRadius = '10px';
+        iframe.style.borderBottomLeftRadius = '10px';
+        iframe.style.borderBottomRightRadius = '10px';        
         modal.appendChild(iframe);
-        
+    
+        const closeButton = document.createElement('div');
+        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.classList.add('close-button_close-button_lOp2G', 'close-button_large_2oadS');
+        closeButton.setAttribute('role', 'button');
+        closeButton.setAttribute('tabindex', '0');
+        closeButton.innerHTML = '<img class="close-button_close-icon_HBCuO" src="static/assets/cb666b99d3528f91b52f985dfb102afa.svg">';
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '50%';
+        closeButton.style.right = '10px';
+        closeButton.style.transform = 'translateY(-50%)';
+        closeButton.style.zIndex = '1000';
+        closeButton.addEventListener('click', () => {
+            document.body.removeChild(overlay);
+        });
+        title.appendChild(closeButton);
+    
+        modal.appendChild(title);
         overlay.appendChild(wrapper);
         document.body.appendChild(overlay);
-        
+    
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) {
                 document.body.removeChild(overlay);
             }
         });
     }
-
+    
     var loadingScreen;
     function showLoader() {
         var style = document.createElement('style');
@@ -319,7 +356,7 @@
                                         const form = document.createElement('form');
                                         form.method = 'POST';
                                         form.action = 'https://ezgif.com/maker';
-                                        ShowIframe("https://ezgif.com", "40%", "50%");
+                                        ShowIframe("https://ezgif.com", "GIF Exporter");
                                         form.target = 'WidgetIframe';
 
                                         const input = document.createElement('input');
