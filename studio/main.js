@@ -19,6 +19,56 @@
 
     // https://penguinpaint.statichost.app
 
+    function ShowIframe(url, width = "50%", height = "50%") {
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
+        overlay.style.zIndex = '9999';
+        overlay.id = "svgtextoverlay";
+        
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'absolute';
+        wrapper.style.top = width;
+        wrapper.style.left = height;
+        wrapper.style.transform = 'translate(-50%, -50%)';
+        wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
+        wrapper.style.borderRadius = '13px';
+        wrapper.style.padding = '0px';
+        
+        const modal = document.createElement('div');
+        modal.style.backgroundColor = 'var(--ui-primary, white)';
+        modal.style.padding = '0px';
+        modal.style.borderRadius = '10px';
+        modal.style.width = '70vw';
+        modal.style.height = '70vh';
+        modal.style.textAlign = 'center';
+        
+        wrapper.appendChild(modal);
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none'; 
+        iframe.id = "WidgetIframe";
+        iframe.name = 'WidgetIframe';
+        iframe.style.borderRadius = '10px';
+        modal.appendChild(iframe);
+        
+        overlay.appendChild(wrapper);
+        document.body.appendChild(overlay);
+        
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                document.body.removeChild(overlay);
+            }
+        });
+    }
+
     var loadingScreen;
     function showLoader() {
         var style = document.createElement('style');
@@ -226,6 +276,33 @@
                                 }
         
                                 let blob = new Blob([imageData], { type: mimeType });
+
+                                if (costume.asset.dataFormat == 'svg') {
+                                    blob = svgToPngBlob(blob);
+                                }
+
+                                function svgToPngBlob(svgBlob) {
+                                    return new Promise((resolve, reject) => {
+                                        const reader = new FileReader();
+                                        reader.onload = function () {
+                                            const svgText = reader.result;
+                                            const svg = new Blob([svgText], { type: 'image/svg+xml' });
+                                            const img = new Image();
+                                            img.onload = function () {
+                                                const canvas = document.createElement('canvas');
+                                                canvas.width = img.width;
+                                                canvas.height = img.height;
+                                                const ctx = canvas.getContext('2d');
+                                                ctx.drawImage(img, 0, 0);
+                                                canvas.toBlob(resolve, 'image/png');
+                                            };
+                                            img.onerror = reject;
+                                            img.src = URL.createObjectURL(svg);
+                                        };
+                                        reader.onerror = reject;
+                                        reader.readAsText(svgBlob);
+                                    });
+                                }                                  
                     
                                 let fileName = `${imgname || "img "+(index+1)}.${fileExtension}`;
                     
@@ -236,22 +313,28 @@
                         zip.generateAsync({ type: "blob" })
                             .then(function (content) {
                                 function openEzgifWithBlob(blob) {
-                                        const url = URL.createObjectURL(blob);
+                                    const reader = new FileReader();
+                                    reader.onloadend = function() {
+                                        const dataUri = reader.result;
                                         const form = document.createElement('form');
                                         form.method = 'POST';
                                         form.action = 'https://ezgif.com/maker';
-                                        form.target = '_blank';
-                                    
+                                        ShowIframe("https://ezgif.com", "40%", "50%");
+                                        form.target = 'WidgetIframe';
+
                                         const input = document.createElement('input');
                                         input.type = 'hidden';
                                         input.name = 'new-image-url';
-                                        input.value = url;
+                                        input.value = dataUri;
                                     
                                         form.appendChild(input);
                                         document.body.appendChild(form);
                                         form.submit();
                                         document.body.removeChild(form);
-                                }                                  
+                                    };
+                                    reader.readAsDataURL(blob);
+                                }
+                                                            
 
                                 openEzgifWithBlob(content);
                             });
