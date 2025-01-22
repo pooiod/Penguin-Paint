@@ -108,7 +108,7 @@
             }
         });
 
-        return [overlay, widgetframe];
+        return [overlay, widgetframe, title, closeButton, () => document.getElementById("widgetoverlay")];
     }
 
     function ShowIframe(url, pageTitle, width, height) {
@@ -197,7 +197,7 @@
             }
         });
 
-        return [overlay, iframe];
+        return [overlay, iframe, title, closeButton, () => document.getElementById("widgetoverlay")];
     }
     
     var loadingScreen;
@@ -568,7 +568,7 @@
                 return new Promise(resolve => {
                     const interval = setInterval(() => {
                         attempts += 1;
-                        if (!window.importingimages.includes(url) || attempts >= 20) {
+                        if (!window.importingimages.includes(url) || attempts >= 40) {
                             clearInterval(interval);
                             resolve();
                         }
@@ -763,7 +763,6 @@
                     });
                 }
     
-                // window.importImage
                 buttonHTML = '<button class="settings_button_2ovv0 buttonsize" style="background: #00c3ff; color: #fff; border: none; border-radius: 5px; padding: 10px;"><b>Set canvas size</b></button>';
                 targetElement.insertAdjacentHTML('afterend', buttonHTML);
         
@@ -976,7 +975,7 @@
                 addImageButton(
                     '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
                     async () => {
-                        var [overlay, frame] = MakeWidget("Image importer", "400px", "190px");
+                        var [overlay, frame, title] = MakeWidget("Image importer", "400px", "190px");
 
                         frame.style.textAlign = 'center';
                   
@@ -1014,7 +1013,7 @@
 
                         async function finishAndImportImageFromURL() {
                             var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
-                            document.getElementById("WidgetTitle").innerHTML = "Importing image";
+                            title.innerHTML = "Importing image";
 
                             if (!url.startsWith("data") && !url.startsWith("/")){
                                 url = "https://api.allorigins.win/raw?url=" + url;
@@ -1037,7 +1036,156 @@
                             finishAndImportImageFromURL()
                         });
                     }
-                );        
+                );
+
+                // AI image addon
+                addImageButton(
+                    '//yeetyourfiles.lol/download/15d98037-8f90-41cd-929f-8768b99aa786',
+                    async () => {
+                        var [overlay, frame, title, closeButton] = MakeWidget("Image generator", "400px", "190px");
+
+                        frame.style.textAlign = 'center';
+                  
+                        const promptInput = document.createElement('input');
+                        promptInput.type = 'text';
+                        promptInput.placeholder = 'What do you want to generate?';
+                        promptInput.value = "{0000000000} A penguin in space";
+                        promptInput.style.margin = '10px 0';
+                        promptInput.style.padding = '10px';
+                        promptInput.style.width = 'calc(100% - 60px)';
+                        promptInput.style.border = '1px solid #ccc';
+                        promptInput.style.borderRadius = '5px';
+                        promptInput.style.marginTop = '20px';
+                        frame.appendChild(promptInput);
+                        setTimeout(() => promptInput.focus(), 100);
+
+                        const confirmButton = document.createElement('button');
+                        confirmButton.textContent = 'Import';
+                        confirmButton.style.padding = '10px 15px';
+                        confirmButton.style.float = "right";
+                        confirmButton.style.marginRight = '18px';
+                        confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
+                        confirmButton.style.border = "1px solid rgb(0, 181, 236)";
+                        confirmButton.style.color = '#fff';
+                        confirmButton.style.cursor = 'pointer';
+                        confirmButton.style.borderRadius = '5px';
+                        confirmButton.style.marginTop = '10px';
+                        confirmButton.style.transition = 'background-color 0.3s';
+                        confirmButton.addEventListener('mouseenter', () => {
+                            confirmButton.style.backgroundColor = 'rgb(0, 159, 207)';
+                        });
+                        confirmButton.addEventListener('mouseleave', () => {
+                            confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
+                        });
+                        frame.appendChild(confirmButton);
+
+                        async function startImageGen(PROMPT, KEY) {
+                            try {
+                                const response = await fetch(`https://stablehorde.net/api/v2/generate/async`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'apikey': KEY || "0000000000"
+                                    },
+                                    body: JSON.stringify({
+                                        prompt: PROMPT,
+                                        params: {
+                                            n: 1,
+                                            censor_nsfw: true,
+                                            transparent: PROMPT.includes("transparent"),
+                                            models: ["any"]
+                                        },
+                                        allow_downgrade: true
+                                    })
+                                });
+                                const data = await response.json();
+                                if (data.message) {
+                                    document.body.removeChild(document.getElementById("widgetoverlay"));
+                                    var [overlay, frame, title] = MakeWidget("Generation failed", "400px", "190px");
+                                    frame.innerHTML = `<br>${data.message}`;
+                                }
+                                return data.id;
+                            } catch (error) {
+                                return error;
+                            }
+                        }
+                        async function getImageGenStatus(ID) {
+                            return fetch(`https://stablehorde.net/api/v2/generate/status/${ID}`)
+                            .then((res) => res.json())
+                            .catch((err) => err.message);
+                        }
+                        
+                        function parseText(input) {
+                            const match = input.match(/^\{([^}]+)\}\s*(.+)$/);
+                            return match ? [match[1], match[2]] : ["", input];
+                        }                    
+
+                        async function finishAndImportImageFromURL() {
+                            var prompt = promptInput.value || `A cartoon penguin in space`;
+                            title.innerHTML = "Starting generation";
+
+                            var key = parseText(prompt);
+                            prompt = key[1];
+                            key = key[0];
+
+                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid #f3f3f3;border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
+
+                            var GenID = await startImageGen(prompt, key);
+
+                            if (document.getElementById("widgetoverlay")) {
+                                title.innerHTML = "Genrating image";
+                            }
+
+                            if (!GenID) {
+                                return;
+                            }
+
+                            var msgInterval = setInterval(async (frame) => {
+                                if (!document.getElementById("widgetoverlay")) {
+                                    clearInterval(msgInterval);
+                                    var [overlay, frame, title] = MakeWidget("Generation canceled", "400px", "190px");
+                                    frame.innerHTML = `<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<div style="display:flex;justify-content:center;align-items:center;height:100%;"><i class="fa-solid fa-circle-xmark" style="font-size:50px;color:#555;"></i></div>`;
+                                    GenID = null;
+                                } else {
+                                    var status = await getImageGenStatus(GenID);
+                                    if (!status || (status && (status.faulted || status.message))) {
+                                        document.getElementById("WidgetTitle").innerHTML = "Generation failed";
+                                        clearInterval(msgInterval);
+                                        document.getElementById("Widgetframe").innerHTML = `<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <div style="display:flex;justify-content:center;align-items:center;height:100%;"><i class="fas fa-frown" style="font-size:50px;color:#555;"></i></div>`;
+                                        if (status && status.faulted) {
+                                            document.getElementById("Widgetframe").innerHTML = `<br>${status.faulted}`;
+                                        } else if (status && status.message) {
+                                            document.getElementById("Widgetframe").innerHTML = `<br>${status.message}`;
+                                        }
+                                    } else if (status.done) {
+                                        clearInterval(msgInterval);
+                                        document.getElementById("WidgetTitle").innerHTML = "Importing image";
+
+                                        await window.importImage("Generation", status.generations[0].img)
+
+                                        document.body.removeChild(document.getElementById("widgetoverlay"));
+                                    } else if (status.queue_position) {
+                                        document.getElementById("WidgetTitle").innerHTML = `Waiting in queue (${status.queue_position})`;
+                                    } else if (status.wait_time) {
+                                        document.getElementById("WidgetTitle").innerHTML = `Genrating image (${status.wait_time}s)`;
+                                    }
+                                }
+                            }, 5000);
+                        }
+
+                        promptInput.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter') {
+                                finishAndImportImageFromURL()
+                            }
+                        });                          
+
+                        confirmButton.addEventListener('click', async () => {
+                            finishAndImportImageFromURL()
+                        });
+                    }
+                );
             })()
         
             // let lastCookies = document.cookie.split('; ').filter(cookie => cookie.startsWith('card_')).join('; ');;
