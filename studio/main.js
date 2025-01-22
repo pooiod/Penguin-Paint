@@ -17,6 +17,8 @@
     var HistoryReplaceState = history.replaceState;
     var HistoryPushState = history.pushState;
 
+    window.importingimages = [];
+
     // https://penguinpaint.statichost.app
 
     function MakeWidget(pageTitle, width, height) {
@@ -63,7 +65,8 @@
         title.style.color = 'white';
         title.style.fontSize = '24px';
         title.style.borderTopLeftRadius = '10px';
-        title.style.borderTopRightRadius = '10px';        
+        title.style.borderTopRightRadius = '10px';   
+        title.id = "WidgetTitle";
         title.innerHTML = pageTitle || "Widget";
         
         const widgetframe = document.createElement('div');
@@ -87,6 +90,7 @@
         closeButton.style.position = 'absolute';
         closeButton.style.top = '50%';
         closeButton.style.right = '10px';
+        closeButton.id = "WidgetCloseButton"
         closeButton.style.transform = 'translateY(-50%)';
         closeButton.style.zIndex = '1000';
         closeButton.addEventListener('click', () => {
@@ -544,6 +548,9 @@
         
         window.importImage = function(name, url) {
             try {
+                if (!window.importingimages.includes(url)) {
+                    window.importingimages.push(url);
+                }
                 fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -551,18 +558,30 @@
                     if (isSVG) {
                         window.addImage(name, url, true);
                     } else {
-                        window.fitToCanvas(url).then((url) => {
-                            window.addImage(name, url);
+                        window.fitToCanvas(url).then((url2) => {
+                            window.addImage(name, url2, false, url);
                         });
                     }
-                });            
+                });
+
+                return new Promise(resolve => {
+                    const interval = setInterval(() => {
+                      if (!window.importingimages.includes(url)) {
+                        clearInterval(interval);
+                        resolve();
+                      }
+                    }, 500);
+                  });         
             } catch(err) {
                 addImage("error1", "https://dummyimage.com/" + window.stageWidth + "x" + window.stageHeight + "/fff/000&text=Error generating image: " + err, false);
             }
         }
         
-        window.addImage = function(name, url, editable) {
-            function importPNG(TEXT, NAME) {
+        window.addImage = function(name, url, editable, origin) {
+            if (!window.importingimages.includes(url)) {
+                window.importingimages.push(url);
+            }
+            function importPNG(TEXT, NAME, origin) {
                 fetch(TEXT)
                     .then((r) => r.arrayBuffer())
                     .then((arrayBuffer) => {
@@ -577,32 +596,39 @@
                                 true
                             ),
                         });
+                        console.log(origin || TEXT)
+                        if (window.importingimages.includes(origin || TEXT)) {
+                            window.importingimages.splice(window.importingimages.indexOf(origin || TEXT), 1);
+                        }
                     });
             }
-            function importSVG(TEXT, NAME) {
+            function importSVG(TEXT, NAME, origin) {
                 fetch(TEXT)
                     .then((r) => r.arrayBuffer())
                     .then((arrayBuffer) => {
                         const storage = vm.runtime.storage;
                         const asset = new storage.Asset(
-                            storage.AssetType.ImageVector,
-                            null,
-                            storage.DataFormat.SVG,
-                            new Uint8Array(arrayBuffer),
-                            true
-                            );
+                                storage.AssetType.ImageVector,
+                                null,
+                                storage.DataFormat.SVG,
+                                new Uint8Array(arrayBuffer),
+                                true
+                                );
                         const newCostumeObject = {
                             md5: asset.assetId + '.' + asset.dataFormat,
                             asset: asset,
                             name: NAME
                         };
                         vm.addCostume(newCostumeObject.md5, newCostumeObject);
+                        if (window.importingimages.includes(origin || TEXT)) {
+                            window.importingimages.splice(window.importingimages.indexOf(origin || TEXT), 1);
+                        }
                     });
             }
             if (editable) {
-                importSVG(url, name);
+                importSVG(url, name, origin);
             } else {
-                importPNG(url, name);
+                importPNG(url, name, origin);
             }
         }
         
@@ -779,9 +805,10 @@
                     widthInput.placeholder = 'Width (px)';
                     widthInput.style.margin = '10px 0';
                     widthInput.style.padding = '10px';
-                    widthInput.style.width = '100%';
+                    widthInput.style.width = 'calc(100% - 20px)';
                     widthInput.style.border = '1px solid #ccc';
                     widthInput.style.borderRadius = '5px';
+                    widthInput.value = window.stageWidth;
                     modal.appendChild(widthInput);
         
                     const heightInput = document.createElement('input');
@@ -789,9 +816,10 @@
                     heightInput.placeholder = 'Height (px)';
                     heightInput.style.margin = '10px 0';
                     heightInput.style.padding = '10px';
-                    heightInput.style.width = '100%';
+                    heightInput.style.width = 'calc(100% - 20px)';
                     heightInput.style.border = '1px solid #ccc';
                     heightInput.style.borderRadius = '5px';
+                    heightInput.value = window.stageHeight;
                     modal.appendChild(heightInput);
         
                     const buttonContainer = document.createElement('div');
@@ -1003,7 +1031,7 @@
                 addImageButton(
                     '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
                     async () => {
-                        var [overlay, frame] = MakeWidget("Image importer", "400px", "200px");
+                        var [overlay, frame] = MakeWidget("Image importer", "400px", "190px");
 
                         frame.style.textAlign = 'center';
                   
@@ -1029,7 +1057,7 @@
                         confirmButton.style.color = '#fff';
                         confirmButton.style.cursor = 'pointer';
                         confirmButton.style.borderRadius = '5px';
-                        confirmButton.style.marginTop = '20px';
+                        confirmButton.style.marginTop = '10px';
                         confirmButton.style.transition = 'background-color 0.3s';
                         confirmButton.addEventListener('mouseenter', () => {
                             confirmButton.style.backgroundColor = 'rgb(0, 159, 207)';
@@ -1039,20 +1067,29 @@
                         });
                         frame.appendChild(confirmButton);
 
-                        confirmButton.addEventListener('click', () => {
+                        async function finishAndImportImageFromURL() {
                             var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
-                  
-                            document.body.removeChild(overlay);
-                
+                            document.getElementById("WidgetTitle").innerHTML = "Importing image";
+
                             if (!url.startsWith("data") && !url.startsWith("/")){
                                 url = "https://api.allorigins.win/raw?url=" + url;
                             }
-                
-                            window.importImage("Import", url)
-                        });
-                  
-                        cancelButton.addEventListener('click', () => {
+
+                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid #f3f3f3;border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
+
+                            await window.importImage("Import", url)
+
                             document.body.removeChild(overlay);
+                        }
+
+                        promptInput.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter') {
+                                finishAndImportImageFromURL()
+                            }
+                        });                          
+
+                        confirmButton.addEventListener('click', async () => {
+                            finishAndImportImageFromURL()
                         });
                     }
                 );        
