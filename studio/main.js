@@ -13,6 +13,8 @@
 
     var newtitle = "Penguin Paint";
     document.title = newtitle;
+
+    var loadimg = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAEpJREFUKFOdkFEKACAIQ+f9D20sUqZUUH45fajTUMObttCZACCkmkzWorGDYtjsEVTomHewnZjSv8Hr6uJu3cxaMfr8Hn2FGspBA/gaFwffFgUWAAAAAElFTkSuQmCC`;
     
     var HistoryReplaceState = history.replaceState;
     var HistoryPushState = history.pushState;
@@ -376,10 +378,11 @@
                     input.click();
                 
                     input.onchange = async function() {
+                        showLoader();
                         deleteAllCostumesButFirst();
-                        await window.importImage(Math.random()*99999999999999, `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wQAAwAB/KnzIhQAAAAASUVORK5CYII=`);
+                        await window.importImage(`${Math.random()*999999}`, loadimg);
                         deleteFirstCostume();
-                        
+
                         await loadJSZip();
 
                         const file = input.files[0];
@@ -406,13 +409,14 @@
                                     const fileExtension = fileName.split('.').pop().toLowerCase();
                                     if (['png', 'jpeg', 'jpg', 'gif', 'svg'].includes(fileExtension)) {
                                         const dataUri = await zipFile.async('base64');
-                                        window.importImage(fileName.slice(0, fileName.lastIndexOf('.')), `data:image/${fileExtension};base64,${dataUri}`);
+                                        window.importImage(fileName.slice(0, fileName.lastIndexOf('.')), `data:image/${fileExtension};base64,${dataUri}`, true);
                                     }
                                 }
                             }
 
                             setTimeout(function() {
                                 deleteFirstCostume();
+                                document.getElementById("paintLoadingScreen")?.remove();
                             }, 100);
                         }
                     };
@@ -617,7 +621,7 @@
             });
         }
         
-        window.importImage = function(name, url) {
+        window.importImage = function(name, url, nosize) {
             try {
                 if (!window.importingimages.includes(url)) {
                     window.importingimages.push(url);
@@ -625,13 +629,17 @@
                 fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    const isSVG = data.trim().startsWith("<svg");
+                    const isSVG = data.trim().includes("<svg");
                     if (isSVG) {
                         window.addImage(name, url, true);
                     } else {
-                        window.fitToCanvas(url).then((url2) => {
-                            window.addImage(name, url2, false, url);
-                        });
+                        if (nosize) {
+                            window.addImage(name, url, false);
+                        } else {
+                            window.fitToCanvas(url).then((url2) => {
+                                window.addImage(name, url2, false, url);
+                            });
+                        }
                     }
                 });
 
