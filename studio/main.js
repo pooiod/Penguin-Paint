@@ -263,7 +263,7 @@
 
         var sidebarcontext = [
             {
-                label: "export all",
+                label: "Save workspace",
                 action: function() {
                     function loadScript(url) {
                         return new Promise((resolve, reject) => {
@@ -342,7 +342,7 @@
                 }
             },
             {
-                label: "export animation",
+                label: "Export animation",
                 action: function() {
                     function loadScript(url) {
                         return new Promise((resolve, reject) => {
