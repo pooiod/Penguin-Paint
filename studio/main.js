@@ -450,8 +450,12 @@
                                         const form = document.createElement('form');
                                         form.method = 'POST';
                                         form.action = 'https://ezgif.com/maker';
-                                        ShowIframe("https://ezgif.com", "GIF Exporter", "80vw", "90vh");
-                                        form.target = 'WidgetIframe';
+                                        if (window.self == window.top) {
+                                            ShowIframe("https://ezgif.com", "GIF Exporter", "80vw", "90vh");
+                                            form.target = 'WidgetIframe';
+                                        } else {
+                                            form.target = '_blank';
+                                        }
 
                                         const input = document.createElement('input');
                                         input.type = 'hidden';
