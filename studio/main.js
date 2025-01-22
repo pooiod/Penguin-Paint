@@ -764,7 +764,8 @@
         
                 if (window.location.hostname === "studio.penguinmod.com") {
                     button.addEventListener('click', function() {
-                        window.open("/addons.html", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
+                        ShowIframe("/addons.html", "Addons", "60vw")
+                        // window.open("/addons.html", "_blank", "width=520,height=700,left=" + (screen.width / 2 - 250) + ",top=" + (screen.height / 2 - 350));
                     });
                 }
     
