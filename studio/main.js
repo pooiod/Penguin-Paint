@@ -19,6 +19,94 @@
 
     // https://penguinpaint.statichost.app
 
+    function MakeWidget(pageTitle, width, height) {
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
+        overlay.style.zIndex = '9999';
+        overlay.id = "widgetoverlay";
+        
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'absolute';
+        wrapper.style.top = "50%";
+        wrapper.style.left = "50%";
+        wrapper.style.transform = 'translate(-50%, -50%)';
+        wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
+        wrapper.style.borderRadius = '13px';
+        wrapper.style.padding = '0px';
+        wrapper.style.width = width || '70vw';
+        wrapper.style.height = height || '80vh';
+        
+        const modal = document.createElement('div');
+        modal.style.padding = '0px';
+        modal.style.borderRadius = '10px';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.textAlign = 'center';
+        
+        wrapper.appendChild(modal);
+    
+        const title = document.createElement('div');
+        title.style.position = 'absolute';
+        title.style.top = '0';
+        title.style.left = '0';
+        title.style.width = '100%';
+        title.style.height = '50px';
+        title.style.backgroundColor = 'rgb(0, 195, 255)';
+        title.style.display = 'flex';
+        title.style.justifyContent = 'center';
+        title.style.alignItems = 'center';
+        title.style.color = 'white';
+        title.style.fontSize = '24px';
+        title.style.borderTopLeftRadius = '10px';
+        title.style.borderTopRightRadius = '10px';        
+        title.innerHTML = pageTitle || "Widget";
+        
+        const widgetframe = document.createElement('div');
+        widgetframe.style.width = '100%';
+        widgetframe.style.height = `calc(100% - 50px)`;
+        widgetframe.style.marginTop = '50px';
+        widgetframe.style.border = 'none'; 
+        widgetframe.id = "Widgetframe";
+        widgetframe.name = 'Widgetframe';
+        widgetframe.style.borderBottomLeftRadius = '10px';
+        widgetframe.style.borderBottomRightRadius = '10px';     
+        widgetframe.style.backgroundColor = 'var(--ui-primary, white)';   
+        modal.appendChild(widgetframe);
+    
+        const closeButton = document.createElement('div');
+        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.classList.add('close-button_close-button_lOp2G', 'close-button_large_2oadS');
+        closeButton.setAttribute('role', 'button');
+        closeButton.setAttribute('tabindex', '0');
+        closeButton.innerHTML = '<img class="close-button_close-icon_HBCuO" src="data:image/svg+xml,%3Csvg%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%207.48%207.48%22%3E%3Cpath%20d%3D%22M3.74%206.48V1M1%203.74h5.48%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-linecap%3Around%3Bstroke-linejoin%3Around%3Bstroke-width%3A2px%22%2F%3E%3C%2Fsvg%3E">';
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '50%';
+        closeButton.style.right = '10px';
+        closeButton.style.transform = 'translateY(-50%)';
+        closeButton.style.zIndex = '1000';
+        closeButton.addEventListener('click', () => {
+            document.body.removeChild(overlay);
+        });
+        title.appendChild(closeButton);
+    
+        modal.appendChild(title);
+        overlay.appendChild(wrapper);
+        document.body.appendChild(overlay);
+    
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                document.body.removeChild(overlay);
+            }
+        });
+
+        return [overlay, widgetframe];
+    }
+
     function ShowIframe(url, pageTitle, width, height) {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
@@ -28,7 +116,7 @@
         overlay.style.height = '100%';
         overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
         overlay.style.zIndex = '9999';
-        overlay.id = "svgtextoverlay";
+        overlay.id = "widgetoverlay";
         
         const wrapper = document.createElement('div');
         wrapper.style.position = 'absolute';
@@ -65,7 +153,7 @@
         title.style.fontSize = '24px';
         title.style.borderTopLeftRadius = '10px';
         title.style.borderTopRightRadius = '10px';        
-        title.innerHTML = pageTitle || url || "Widget";
+        title.innerHTML = pageTitle || url || "Iframe Widget";
         
         const iframe = document.createElement('iframe');
         iframe.src = url;
@@ -104,6 +192,8 @@
                 document.body.removeChild(overlay);
             }
         });
+
+        return [overlay, iframe];
     }
     
     var loadingScreen;
@@ -409,7 +499,7 @@
         }
         
         window.setSize = function(width, height) {
-            runWithScratch(`Scratch.vm.setStageSize(${width/2}, ${height/2})`);
+            Scratch.vm.setStageSize(width/2, height/2);
             window.stageWidth = width;
             window.stageHeight = height;
         }
@@ -472,50 +562,48 @@
         }
         
         window.addImage = function(name, url, editable) {
-            runWithScratch(`
-                function importPNG(TEXT, NAME) {
-                  fetch(TEXT)
+            function importPNG(TEXT, NAME) {
+                fetch(TEXT)
                     .then((r) => r.arrayBuffer())
                     .then((arrayBuffer) => {
-                      const storage = vm.runtime.storage;
-                      vm.addCostume(NAME + ".PNG", {
-                        name: NAME,
-                        asset: new storage.Asset(
-                          storage.AssetType.ImageBitmap,
-                          null,
-                          storage.DataFormat.PNG,
-                          new Uint8Array(arrayBuffer),
-                          true
-                        ),
-                      });
+                        const storage = vm.runtime.storage;
+                        vm.addCostume(NAME + ".PNG", {
+                            name: NAME,
+                            asset: new storage.Asset(
+                                storage.AssetType.ImageBitmap,
+                                null,
+                                storage.DataFormat.PNG,
+                                new Uint8Array(arrayBuffer),
+                                true
+                            ),
+                        });
                     });
-                }
-                function importSVG(TEXT, NAME) {
-                    fetch(TEXT)
+            }
+            function importSVG(TEXT, NAME) {
+                fetch(TEXT)
                     .then((r) => r.arrayBuffer())
                     .then((arrayBuffer) => {
                         const storage = vm.runtime.storage;
                         const asset = new storage.Asset(
-                        storage.AssetType.ImageVector,
-                        null,
-                        storage.DataFormat.SVG,
-                        new Uint8Array(arrayBuffer),
-                        true
-                        );
+                            storage.AssetType.ImageVector,
+                            null,
+                            storage.DataFormat.SVG,
+                            new Uint8Array(arrayBuffer),
+                            true
+                            );
                         const newCostumeObject = {
-                        md5: asset.assetId + '.' + asset.dataFormat,
-                        asset: asset,
-                        name: NAME
+                            md5: asset.assetId + '.' + asset.dataFormat,
+                            asset: asset,
+                            name: NAME
                         };
                         vm.addCostume(newCostumeObject.md5, newCostumeObject);
                     });
-                }
-                if (${editable?true:false}) {
-                    importSVG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
-                } else {
-                    importPNG(decodeURI(\`${encodeURI(url)}\`), decodeURI(\`${encodeURI(name)}\`));
-                }
-            `);
+            }
+            if (editable) {
+                importSVG(url, name);
+            } else {
+                importPNG(url, name);
+            }
         }
         
         window.runWithScratch = function(js) {
@@ -900,7 +988,7 @@
                   
                     if (receivedMessage && receivedMessage.startsWith("data:image/svg+xml;charset=utf-8,")) {
                         window.addImage("Text import", receivedMessage, true);
-                        document.body.removeChild(document.getElementById("svgtextoverlay"));
+                        document.body.removeChild(document.getElementById("widgetoverlay"));
                     }
                 });
                 
@@ -909,98 +997,48 @@
                     async () => {
                         ShowIframe("//p7scratchextensions.pages.dev/extras/html/SVGtext", "SVG Text Importer")
                     }
-                );   
+                );
                 
                 // URL import addon
                 addImageButton(
                     '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
                     async () => {
-                        const overlay = document.createElement('div');
-                        overlay.style.position = 'fixed';
-                        overlay.style.top = '0';
-                        overlay.style.left = '0';
-                        overlay.style.width = '100%';
-                        overlay.style.height = '100%';
-                        overlay.style.backgroundColor = 'rgba(0, 195, 255, 0.7)';
-                        overlay.style.zIndex = '999';
-                  
-                        const wrapper = document.createElement('div');
-                        wrapper.style.position = 'absolute';
-                        wrapper.style.top = '50%';
-                        wrapper.style.left = '50%';
-                        wrapper.style.transform = 'translate(-50%, -50%)';
-                        wrapper.style.border = '4px solid rgba(255, 255, 255, 0.25)';
-                        wrapper.style.borderRadius = '13px';
-                        wrapper.style.padding = '0px';
-                  
-                        const modal = document.createElement('div');
-                        modal.style.backgroundColor = 'var(--ui-primary, white)';
-                        modal.style.padding = '30px';
-                        modal.style.borderRadius = '10px';
-                        modal.style.width = '300px';
-                        modal.style.textAlign = 'center';
-                  
-                        wrapper.appendChild(modal);
-                  
-                        const title = document.createElement('h2');
-                        title.textContent = 'Provide an image url';
-                        title.style.marginBottom = '20px';
-                        modal.appendChild(title);
+                        var [overlay, frame] = MakeWidget("Image importer", "400px", "200px");
+
+                        frame.style.textAlign = 'center';
                   
                         const promptInput = document.createElement('input');
                         promptInput.type = 'text';
                         promptInput.placeholder = 'https://example.com/randomimage.png';
                         promptInput.style.margin = '10px 0';
                         promptInput.style.padding = '10px';
-                        promptInput.style.width = 'calc(100% - 30px)';
+                        promptInput.style.width = 'calc(100% - 60px)';
                         promptInput.style.border = '1px solid #ccc';
                         promptInput.style.borderRadius = '5px';
-                        modal.appendChild(promptInput);
+                        promptInput.style.marginTop = '20px';
+                        frame.appendChild(promptInput);
                         setTimeout(() => promptInput.focus(), 100);
-                  
-                        const buttonContainer = document.createElement('div');
-                        buttonContainer.style.display = 'flex';
-                        buttonContainer.style.justifyContent = 'space-between';
-                        buttonContainer.style.marginTop = '20px';
-                  
-                        const cancelButton = document.createElement('button');
-                        cancelButton.textContent = 'Cancel';
-                        cancelButton.style.padding = '10px 15px';
-                        cancelButton.style.backgroundColor = '#dc3545';
-                        cancelButton.style.color = '#fff';
-                        cancelButton.style.border = 'none';
-                        cancelButton.style.cursor = 'pointer';
-                        cancelButton.style.borderRadius = '5px';
-                        cancelButton.style.transition = 'background-color 0.3s';
-                        cancelButton.addEventListener('mouseenter', () => {
-                            cancelButton.style.backgroundColor = '#c82333';
-                        });
-                        cancelButton.addEventListener('mouseleave', () => {
-                            cancelButton.style.backgroundColor = '#dc3545';
-                        });
-                        buttonContainer.appendChild(cancelButton);
-                  
+
                         const confirmButton = document.createElement('button');
                         confirmButton.textContent = 'Import';
                         confirmButton.style.padding = '10px 15px';
-                        confirmButton.style.backgroundColor = '#28a745';
+                        confirmButton.style.float = "right";
+                        confirmButton.style.marginRight = '18px';
+                        confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
+                        confirmButton.style.border = "1px solid rgb(0, 181, 236)";
                         confirmButton.style.color = '#fff';
-                        confirmButton.style.border = 'none';
                         confirmButton.style.cursor = 'pointer';
                         confirmButton.style.borderRadius = '5px';
+                        confirmButton.style.marginTop = '20px';
                         confirmButton.style.transition = 'background-color 0.3s';
                         confirmButton.addEventListener('mouseenter', () => {
-                            confirmButton.style.backgroundColor = '#218838';
+                            confirmButton.style.backgroundColor = 'rgb(0, 159, 207)';
                         });
                         confirmButton.addEventListener('mouseleave', () => {
-                            confirmButton.style.backgroundColor = '#28a745';
+                            confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
                         });
-                        buttonContainer.appendChild(confirmButton);
-                  
-                        modal.appendChild(buttonContainer);
-                        overlay.appendChild(wrapper);
-                        document.body.appendChild(overlay);
-                  
+                        frame.appendChild(confirmButton);
+
                         confirmButton.addEventListener('click', () => {
                             var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
                   
