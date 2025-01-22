@@ -17,6 +17,18 @@
     var HistoryReplaceState = history.replaceState;
     var HistoryPushState = history.pushState;
 
+    function deleteFirstCostume() {
+        document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1)`)?.click();
+        document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1) > .delete-button_delete-button_2Nzko`)?.click();
+    }
+
+    function deleteAllCostumesButFirst() {
+        deleteFirstCostume();
+        while (document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1) > .delete-button_delete-button_2Nzko`) != null) {
+            deleteFirstCostume();
+        }        
+    }
+
     window.importingimages = [];
 
     // https://penguinpaint.statichost.app
@@ -261,20 +273,20 @@
 
         var paintLoadingScreen = document.getElementById("paintLoadingScreen");
 
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
         var sidebarcontext = [
             {
                 label: "Save workspace",
                 action: function() {
-                    function loadScript(url) {
-                        return new Promise((resolve, reject) => {
-                            const script = document.createElement('script');
-                            script.src = url;
-                            script.onload = resolve;
-                            script.onerror = reject;
-                            document.head.appendChild(script);
-                        });
-                    }
-                    
                     async function loadJSZip() {
                         if (typeof JSZip === 'undefined') {
                             await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
@@ -291,14 +303,19 @@
                         var images = spr.sprite.costumes_;
                         var zip = new JSZip();
                     
+                        var config = {
+                            width: window.stageWidth,
+                            height: window.stageHeight
+                        };
+                        zip.file('config.json', JSON.stringify(config));
+                    
                         for (let index = 0; index < images.length; index++) {
                             let costume = images[index];
-                            console.log(costume);
                             let imgname = costume.name;
                     
                             if (costume.asset.data) {
                                 let imageData = costume.asset.data;
-                                
+                    
                                 let mimeType = '';
                                 let fileExtension = '';
                     
@@ -323,7 +340,7 @@
                                         alert(`Unsupported image format: ${costume.asset.dataFormat}`);
                                         continue;
                                 }
-        
+                    
                                 let blob = new Blob([imageData], { type: mimeType });
                     
                                 let fileName = `${imgname || "img "+(index+1)}.${fileExtension}`;
@@ -334,7 +351,7 @@
                     
                         zip.generateAsync({ type: "blob" })
                             .then(function (content) {
-                                saveAs(content, "export.zip");
+                                saveAs(content, "workspace.zip");
                             });
                     }
                     
@@ -342,18 +359,68 @@
                 }
             },
             {
+                label: "Load workspace",
+                action: function() {
+                    async function loadJSZip() {
+                        if (typeof JSZip === 'undefined') {
+                            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+                        }
+                        if (typeof saveAs === 'undefined') {
+                            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js');
+                        }
+                    }
+
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.zip';
+                    input.click();
+                
+                    input.onchange = async function() {
+                        deleteAllCostumesButFirst();
+                        await window.importImage(Math.random()*99999999999999, `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wQAAwAB/KnzIhQAAAAASUVORK5CYII=`);
+                        deleteFirstCostume();
+                        
+                        await loadJSZip();
+
+                        const file = input.files[0];
+                        if (file) {
+                            const zip = await JSZip.loadAsync(file);
+                            const configFile = zip.file('config.json');
+                            let config = null;
+                
+                            if (configFile) {
+                                const configData = await configFile.async('text');
+                                try {
+                                    config = JSON.parse(configData);
+                                    if (config.width && config.height) {
+                                        window.setSize(config.width, config.height);
+                                    }
+                                } catch (e) {
+                                    console.error("Invalid config.json:", e);
+                                }
+                            }
+
+                            for (let fileName in zip.files) {
+                                const zipFile = zip.files[fileName];
+                                if (!zipFile.dir) {
+                                    const fileExtension = fileName.split('.').pop().toLowerCase();
+                                    if (['png', 'jpeg', 'jpg', 'gif', 'svg'].includes(fileExtension)) {
+                                        const dataUri = await zipFile.async('base64');
+                                        window.importImage(fileName.slice(0, fileName.lastIndexOf('.')), `data:image/${fileExtension};base64,${dataUri}`);
+                                    }
+                                }
+                            }
+
+                            setTimeout(function() {
+                                deleteFirstCostume();
+                            }, 100);
+                        }
+                    };
+                }
+            },
+            {
                 label: "Export animation",
                 action: function() {
-                    function loadScript(url) {
-                        return new Promise((resolve, reject) => {
-                            const script = document.createElement('script');
-                            script.src = url;
-                            script.onload = resolve;
-                            script.onerror = reject;
-                            document.head.appendChild(script);
-                        });
-                    }
-                    
                     async function loadJSZip() {
                         if (typeof JSZip === 'undefined') {
                             await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
@@ -375,7 +442,6 @@
                     
                         for (let index = 0; index < images.length; index++) {
                             let costume = images[index];
-                            console.log(costume);
                             let imgname = costume.name;
                     
                             if (costume.asset.data) {
@@ -1027,7 +1093,7 @@
 
                             frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid #f3f3f3;border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
 
-                            await window.importImage("Import", url)
+                            await window.importImage(url.split('/').pop(), url)
 
                             document.body.removeChild(overlay);
                         }
@@ -1211,21 +1277,14 @@
                 if (!importurl.startsWith("data") && !importurl.startsWith("/") && !isCorsDomain(importurl)){
                     importurl = "https://api.allorigins.win/raw?url=" + importurl;
                 }
-                setTimeout(()=>{
-                    window.importImage("Import", importurl);
-                    const checkInterval = setInterval(() => {
-                        if (document.querySelectorAll('.react-contextmenu.context-menu_context-menu_2SJM-').length > 7) {
-                            clearInterval(checkInterval);
-                            if (document.getElementById("paintLoadingScreen")) {
-                                loadingScreen.remove();
-                            }
-                        }
-                    }, 500);                      
-                    setTimeout(()=>{
-                        if (document.getElementById("paintLoadingScreen")) {
-                            loadingScreen.remove();
-                        }
-                    }, 9000);
+                setTimeout(async()=>{
+                    await window.importImage(importurl.split('/').pop(), importurl);
+                    setTimeout(function() {
+                        deleteFirstCostume();
+                    }, 100);
+                    if (document.getElementById("paintLoadingScreen")) {
+                        loadingScreen.remove();
+                    }
                 }, 500);
             }
         
