@@ -1341,30 +1341,25 @@
                 }, 500);
             }
         
-            // Function to create and display the context menu
             function createContextMenu(event) {
-                // Prevent default context menu
                 event.preventDefault();
         
-                // Remove existing context menu if it exists
                 var existingMenu = document.querySelector('.custom-context-menu');
                 if (existingMenu) {
                     document.body.removeChild(existingMenu);
                 }
         
-                // Create new context menu
                 const menu = document.createElement('div');
                 menu.className = 'custom-context-menu';
                 menu.style.position = 'absolute';
                 menu.style.left = `${event.pageX}px`;
                 menu.style.top = `${event.pageY}px`;
-                menu.style.backgroundColor = 'white';
-                menu.style.border = '1px solid #ccc';
+                menu.style.backgroundColor = 'var(--ui-primary, white)';
+                menu.style.border = '1px solid var(--ui-secondary, #ccc)';
                 menu.style.boxShadow = '2px 2px 10px rgba(0,0,0,0.1)';
                 menu.style.zIndex = '1000';
                 menu.style.borderRadius = "5px";
         
-                // Populate menu with items from sidebarcontext
                 sidebarcontext.forEach(item => {
                     const menuItem = document.createElement('div');
                     menuItem.textContent = item.label;
@@ -1372,18 +1367,16 @@
                     menuItem.style.cursor = 'pointer';
                     menuItem.style.borderRadius = "5px";
         
-                    // Add click event to each item
                     menuItem.onclick = function() {
-                        item.action(); // Call the action associated with the item
-                        document.body.removeChild(menu); // Remove menu after selection
+                        item.action();
+                        document.body.removeChild(menu);
                     };
         
-                    // Add hover effect
                     menuItem.onmouseover = function() {
-                        menuItem.style.backgroundColor = '#f0f0f0';
+                        menuItem.style.backgroundColor = 'rgba(125, 125, 125, 0.09)';
                     };
                     menuItem.onmouseout = function() {
-                        menuItem.style.backgroundColor = 'white';
+                        menuItem.style.backgroundColor = 'transparent';
                     };
         
                     menu.appendChild(menuItem);
@@ -1391,7 +1384,6 @@
         
                 document.body.appendChild(menu);
         
-                // Remove the menu when clicking anywhere else
                 document.addEventListener('click', function removeMenu() {
                     var existingMenu = document.querySelector('.custom-context-menu');
                     if (existingMenu) {
@@ -1401,7 +1393,6 @@
                 });
             }
         
-            // Attach the context menu to the specified element
             const sidebarElement = document.querySelector('#react-tabs-3 > div > div.selector_wrapper_8_BHs.box_box_2jjDp > div.selector_list-area_1Xbj_.box_box_2jjDp');
         
             if (sidebarElement) {
