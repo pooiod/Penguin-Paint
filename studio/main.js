@@ -631,7 +631,7 @@
                 .then(data => {
                     const isSVG = data.trim().includes("<svg");
                     if (isSVG) {
-                        const match = flase// data.match(/<!--rotationCenter:-?([\d.]+):-?([\d.]+)-->/);
+                        const match = false;// data.match(/<!--rotationCenter:-?([\d.]+):-?([\d.]+)-->/);
                         if (match) {
                             const x = parseFloat(match[1]);
                             const y = parseFloat(match[2]);
