@@ -14,6 +14,8 @@ This may be slower, but it ensures that all PenguinMod updates are always availa
 ### Key Features
 
 - **SVG and Bitmap Editing**: Create and manipulate both vector and raster images.
+- **Workspaces**: Import and export groups of images.
+- **Animations**: Export any workspace as a gif.
 - **User-Friendly Interface**: An intuitive and simple interface for users of all skill levels.
 - **Web Application**: Accessible directly through your browser without any installation required.
 - **Add-ons**: Penguin Paint supports extensions, which extend its functionality by providing additional tools. (wip feature)
@@ -24,7 +26,7 @@ To use Penguin Paint, simply follow these steps:
 
 1. Open your web browser.
 2. Navigate to the [Penguin Paint Web App](https://penguinpaint.statichost.app?import=https://yeetyourfiles.lol/download/6137cd1f-28a7-4916-8289-cdf70064191b).
-4. Start editing your images right away!
+3. Start editing your images right away!
 
 ## Usage
 
@@ -32,6 +34,6 @@ Once you're on the Penguin Paint web app, you can:
 
 - **Create New Projects**: Start from scratch or use existing images as your canvas.
 - **Edit Images**: Utilize various tools for drawing, coloring, and manipulating images.
-- **Save Your Work**: Right click an card and export to save your project for future use.
+- **Save Your Work**: Right click an card and export to save your project, or right click on a blank area to save the whole workspace.
 
 <sub>- Penguin Paint is not afiliated with PenguinMod, Turbowarp or Scratch</sub>
