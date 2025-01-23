@@ -968,6 +968,8 @@
                 });
             }
         }
+
+        setInterval(extrabuttons, 9000);
         
         function openPaint() {
             // if (document.title.split(" - ")[1]) {
