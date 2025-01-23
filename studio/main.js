@@ -397,6 +397,9 @@
                                 target.costumes.forEach(costume => {
                                     if (costume.md5ext === targetMD5ext) {
                                         found = costume;
+                                        if (!found.name.includes("//")) {
+                                            found.name = `${target.name}//${costume.name}`;
+                                        }
                                     }
                                 });
                             });
