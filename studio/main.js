@@ -289,6 +289,15 @@
 
         var sidebarcontext = [
             {
+                label: "New workspace",
+                action: function() {
+                    deleteAllCostumesButFirst();
+                    setTimeout(function() {
+                        document.querySelector(`div.mode-tools_mod-dashed-border_T8CR_:nth-child(2) > span:nth-child(1)`)?.click();
+                    }, 200);
+                }
+            },
+            {
                 label: "Save workspace",
                 action: function() {
                     async function loadJSZip() {
