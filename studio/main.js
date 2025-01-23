@@ -269,21 +269,21 @@
     }
     setTimeout(showLoader, 100);
 
+    function loadScript(url) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
     function LoadPenguinPaintMod() {
         var newtitle = "Penguin Paint";
         document.title = newtitle;
 
         var paintLoadingScreen = document.getElementById("paintLoadingScreen");
-
-        function loadScript(url) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = url;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
 
         var sidebarcontext = [
             {
@@ -342,8 +342,14 @@
                                         alert(`Unsupported image format: ${costume.asset.dataFormat}`);
                                         continue;
                                 }
-                    
+
                                 let blob = new Blob([imageData], { type: mimeType });
+
+                                if (costume.asset.dataFormat == "svg") {
+                                    blob = new Blob([blob], { type: 'image/svg+xml' }).text().then(svg => {
+                                        return new Blob([svg + `<!--rotationCenter:${images[index].rotationCenterX}:${images[index].rotationCenterY}-->`], { type: 'image/svg+xml' });
+                                    });
+                                }
                     
                                 let fileName = `${imgname || "img "+(index+1)}.${fileExtension}`;
                     
@@ -353,7 +359,7 @@
                     
                         zip.generateAsync({ type: "blob" })
                             .then(function (content) {
-                                saveAs(content, "workspace.zip");
+                                saveAs(content, "workspace.ppw");
                             });
                     }
                     
@@ -374,9 +380,9 @@
 
                     const input = document.createElement('input');
                     input.type = 'file';
-                    input.accept = '.zip';
+                    input.accept = '.ppw, .zip, .pmp, .sb3';
                     input.click();
-                
+
                     input.onchange = async function() {
                         showLoader();
                         deleteAllCostumesButFirst();
@@ -385,10 +391,23 @@
 
                         await loadJSZip();
 
+                        function searchMD5ext(json, targetMD5ext) {
+                            let found = false;
+                                json.targets.forEach(target => {
+                                target.costumes.forEach(costume => {
+                                    if (costume.md5ext === targetMD5ext) {
+                                        found = costume;
+                                    }
+                                });
+                            });
+                            return found;
+                        }
+
                         const file = input.files[0];
                         if (file) {
                             const zip = await JSZip.loadAsync(file);
                             const configFile = zip.file('config.json');
+                            var project = zip.file('project.json');
                             let config = null;
                 
                             if (configFile) {
@@ -403,13 +422,39 @@
                                 }
                             }
 
+                            if (project) {
+                                project = await project.async('text');
+                                try {
+                                    project = JSON.parse(project);
+                                    window.setSize(480*2, 360*2);
+                                } catch (e) {
+                                    project = null;
+                                }
+                            }
+
                             for (let fileName in zip.files) {
                                 const zipFile = zip.files[fileName];
                                 if (!zipFile.dir) {
                                     const fileExtension = fileName.split('.').pop().toLowerCase();
                                     if (['png', 'jpeg', 'jpg', 'gif', 'svg'].includes(fileExtension)) {
-                                        const dataUri = await zipFile.async('base64');
-                                        window.importImage(fileName.slice(0, fileName.lastIndexOf('.')), `data:image/${fileExtension};base64,${dataUri}`, true);
+                                        var dataUri = await zipFile.async('base64');
+                                        if (project && fileExtension == "svg") {
+                                            var costume = searchMD5ext(project, fileName);
+                                            try {
+                                                const response = await fetch('data:image/svg+xml;base64,' + dataUri);
+                                                const svgText = await response.text();
+                                                const modifiedSvg = svgText + `<!--rotationCenter:${costume.rotationCenterX}:${costume.rotationCenterY}-->`;
+                                                dataUri = btoa(modifiedSvg);
+                                            } catch(err) {
+                                                console.warn(err);
+                                            }
+                                        }
+                                        if (project) {
+                                            var costume = searchMD5ext(project, fileName);
+                                            window.importImage(costume.name, `data:image/${fileExtension};base64,${dataUri}`, true);
+                                        } else {
+                                            window.importImage(fileName.slice(0, fileName.lastIndexOf('.')), `data:image/${fileExtension};base64,${dataUri}`, true);
+                                        }
                                     }
                                 }
                             }
@@ -631,30 +676,7 @@
                 .then(data => {
                     const isSVG = data.trim().includes("<svg");
                     if (isSVG) {
-                        const match = false;// data.match(/<!--rotationCenter:-?([\d.]+):-?([\d.]+)-->/);
-                        if (match) {
-                            const x = parseFloat(match[1]);
-                            const y = parseFloat(match[2]);
-                            console.log(x, y);
-
-                            const parser = new DOMParser();
-                            const serializer = new XMLSerializer();
-                            
-                            const svgDoc = parser.parseFromString(data, "image/svg+xml");
-                            const svg = svgDoc.documentElement;
-                            
-                            Array.from(svg.querySelectorAll("*")).forEach(element => {
-                                const transform = element.getAttribute("transform") || "";
-                                const newTransform = transform + ` translate(${x},${y})`;
-                                element.setAttribute("transform", newTransform);
-                            });
-                        
-                            const updatedSVG = serializer.serializeToString(svgDoc);
-                            const dataUri = `data:image/svg+xml;base64,${btoa(updatedSVG)}`;
-                            window.addImage(name, dataUri, true, url);
-                        } else {
-                            window.addImage(name, url, true);
-                        }
+                        window.addImage(name, url, true);
                     } else {
                         if (nosize) {
                             window.addImage(name, url, false);
