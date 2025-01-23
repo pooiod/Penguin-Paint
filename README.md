@@ -18,7 +18,7 @@ This may be slower, but it ensures that all PenguinMod updates are always availa
 - **Animations**: Export any workspace as a gif.
 - **User-Friendly Interface**: An intuitive and simple interface for users of all skill levels.
 - **Web Application**: Accessible directly through your browser without any installation required.
-- **Add-ons**: Penguin Paint supports extensions, which extend its functionality by providing additional tools. (wip feature)
+<!-- - **Add-ons**: Penguin Paint supports extensions, which extend its functionality by providing additional tools. (wip feature) -->
 
 ## Installation
 
