@@ -20,15 +20,17 @@
     var HistoryPushState = history.pushState;
 
     function deleteFirstCostume() {
+        if (Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.length > 1) {
+            Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.shift();
+        }
         document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1)`)?.click();
-        document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1) > .delete-button_delete-button_2Nzko`)?.click();
     }
 
     function deleteAllCostumesButFirst() {
-        deleteFirstCostume();
-        while (document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1) > .delete-button_delete-button_2Nzko`) != null) {
-            deleteFirstCostume();
-        }        
+        while (Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.length > 1) {
+            Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_ = Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.filter((_, index) => index !== 1);
+        }
+        document.querySelector(`.selector_list-area_1Xbj_ > div:nth-child(1) > div:nth-child(1)`)?.click();
     }
 
     window.importingimages = [];
