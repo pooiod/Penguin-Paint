@@ -2,8 +2,6 @@
 
 **Penguin Paint** is an image editor based on [PenguinMod](https://penguinmod.com)s costume editor. It provides a streamlined experience by focusing solely on the image editing features, making it perfect for users who want to create and edit images effortlessly.
 
-> **Notice:** The normal PenguinPaint build is currently unusable on the main domain due to a false phishing report, but you can still use it without special addon configs here: https://penguinpaint.statichost.app
-
 <!-- ?import=https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/frontpage.svg -->
 [![](frontpage.svg)](https://penguinpaint.statichost.app "penguinpaint.pages.dev")<br>
 <sub>- This image was made in Penguin Paint</sub>
@@ -16,18 +14,16 @@ This may be slower, but it ensures that all PenguinMod updates are always availa
 ### Key Features
 
 - **SVG and Bitmap Editing**: Create and manipulate both vector and raster images.
-- **Always in-sync with PenguinMod**: Since it's built on PenguinMod, any updates to PenguinMod features are automatically available in Penguin Paint.
 - **User-Friendly Interface**: An intuitive and simple interface for users of all skill levels.
 - **Web Application**: Accessible directly through your browser without any installation required.
-- **Add-ons**: Penguin Paint supports add-ons, which extend its functionality by providing additional tools.
+- **Add-ons**: Penguin Paint supports extensions, which extend its functionality by providing additional tools. (wip feature)
 
 ## Installation
 
 To use Penguin Paint, simply follow these steps:
 
 1. Open your web browser.
-2. Navigate to the [Penguin Paint Web App](https://penguinpaint.pages.dev/?import=https://yeetyourfiles.lol/download/6137cd1f-28a7-4916-8289-cdf70064191b).
-3. Click install as PWA button on url bar (not required)
+2. Navigate to the [Penguin Paint Web App](https://penguinpaint.statichost.app?import=https://yeetyourfiles.lol/download/6137cd1f-28a7-4916-8289-cdf70064191b).
 4. Start editing your images right away!
 
 ## Usage
