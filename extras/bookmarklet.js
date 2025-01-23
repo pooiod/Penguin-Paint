@@ -1,21 +1,3 @@
-function addAltClickListener(img) {
-    img.addEventListener('click', function (e) {
-        if (e.altKey) {
-            e.preventDefault();
-            const imageUrl = img.src;
-            window.open(`https://penguinpaint.statichost.app?import=${encodeURIComponent(imageUrl)}`, '_blank');
-        }
-    });
-}
-
-function checkForNewImages() {
-    document.querySelectorAll('img:not([data-alt-listener])').forEach(img => {
-        addAltClickListener(img);
-        img.setAttribute('data-alt-listener', 'true');
-    });
-}
-
-setInterval(checkForNewImages, 3000);
 
 if (window.location.hostname === 'studio.penguinmod.com') {
     let checks = 0;
@@ -27,7 +9,7 @@ if (window.location.hostname === 'studio.penguinmod.com') {
         }
 
         let targetElement = document.querySelector('p.url_url_3Y61f');
-        if (targetElement && (targetElement.textContent.includes('https://raw.githubusercontent.com/pooiod/Penguin-Paint'))) {
+        if (targetElement && (targetElement.textContent.includes('https://raw.githubusercontent.com/pooiod/Penguin'))) {
             let button = document.querySelector('button.security-manager-modal_allow-button_3tcXk');
             if (button) {
                 if (button.disabled) button.disabled = false;
@@ -41,4 +23,23 @@ if (window.location.hostname === 'studio.penguinmod.com') {
         }
         checks++;
     }, 100);
+} else {
+    function addAltClickListener(img) {
+        img.addEventListener('click', function (e) {
+            if (e.altKey) {
+                e.preventDefault();
+                const imageUrl = img.src;
+                window.open(`https://penguinpaint.statichost.app?import=${encodeURIComponent(imageUrl)}`, '_blank');
+            }
+        });
+    }
+    
+    function checkForNewImages() {
+        document.querySelectorAll('img:not([data-alt-listener])').forEach(img => {
+            addAltClickListener(img);
+            img.setAttribute('data-alt-listener', 'true');
+        });
+    }
+    
+    setInterval(checkForNewImages, 3000);
 }
