@@ -631,7 +631,30 @@
                 .then(data => {
                     const isSVG = data.trim().includes("<svg");
                     if (isSVG) {
-                        window.addImage(name, url, true);
+                        const match = flase// data.match(/<!--rotationCenter:-?([\d.]+):-?([\d.]+)-->/);
+                        if (match) {
+                            const x = parseFloat(match[1]);
+                            const y = parseFloat(match[2]);
+                            console.log(x, y);
+
+                            const parser = new DOMParser();
+                            const serializer = new XMLSerializer();
+                            
+                            const svgDoc = parser.parseFromString(data, "image/svg+xml");
+                            const svg = svgDoc.documentElement;
+                            
+                            Array.from(svg.querySelectorAll("*")).forEach(element => {
+                                const transform = element.getAttribute("transform") || "";
+                                const newTransform = transform + ` translate(${x},${y})`;
+                                element.setAttribute("transform", newTransform);
+                            });
+                        
+                            const updatedSVG = serializer.serializeToString(svgDoc);
+                            const dataUri = `data:image/svg+xml;base64,${btoa(updatedSVG)}`;
+                            window.addImage(name, dataUri, true, url);
+                        } else {
+                            window.addImage(name, url, true);
+                        }
                     } else {
                         if (nosize) {
                             window.addImage(name, url, false);
@@ -652,7 +675,7 @@
                             resolve();
                         }
                     }, 500);
-                  });         
+                  });
             } catch(err) {
                 addImage("error1", "https://dummyimage.com/" + window.stageWidth + "x" + window.stageHeight + "/fff/000&text=Error generating image: " + err, false);
             }
