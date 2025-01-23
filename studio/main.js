@@ -538,22 +538,29 @@
                                 let blob = new Blob([imageData], { type: mimeType });
 
                                 if (costume.asset.dataFormat == 'svg') {
-                                    blob = svgToPngBlob(blob);
+                                    blob = new Blob([blob], { type: 'image/svg+xml' }).text().then(svg => {
+                                        var blob2 = new Blob([svg + `<!--rotationCenter:${images[index].rotationCenterX}:${images[index].rotationCenterY}-->`], { type: 'image/svg+xml' });
+                                        return blob = svgToPngBlob(blob2, -images[index].rotationCenterX, -images[index].rotationCenterY, true);
+                                    });
                                 }
 
-                                function svgToPngBlob(svgBlob) {
+                                function svgToPngBlob(svgBlob, offsetX, offsetY, nocenter) {
                                     return new Promise((resolve, reject) => {
                                         const reader = new FileReader();
                                         reader.onload = function () {
                                             const svgText = reader.result;
+                                            const stageWidth = window.stageWidth/2;
+                                            const stageHeight = window.stageHeight/2;
                                             const svg = new Blob([svgText], { type: 'image/svg+xml' });
                                             const img = new Image();
                                             img.onload = function () {
                                                 const canvas = document.createElement('canvas');
-                                                canvas.width = img.width;
-                                                canvas.height = img.height;
+                                                canvas.width = stageWidth;
+                                                canvas.height = stageHeight;
                                                 const ctx = canvas.getContext('2d');
-                                                ctx.drawImage(img, 0, 0);
+                                                const centerX = (stageWidth - (img.width * nocenter?2:1)) / 2 + offsetX;
+                                                const centerY = (stageHeight - (img.height * nocenter?2:1)) / 2 + offsetY;
+                                                ctx.drawImage(img, centerX, centerY);
                                                 canvas.toBlob(resolve, 'image/png');
                                             };
                                             img.onerror = reject;
@@ -562,8 +569,8 @@
                                         reader.onerror = reject;
                                         reader.readAsText(svgBlob);
                                     });
-                                }                                  
-                    
+                                }
+                                
                                 let fileName = `${imgname || "img "+(index+1)}.${fileExtension}`;
                     
                                 zip.file(fileName, blob);
