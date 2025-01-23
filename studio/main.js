@@ -623,7 +623,7 @@
             "raw.githubusercontent.com",
             "api.allorigins.win",
             "studio.penguinmod.com",
-            "penguinmod.com"
+            "penguinmod.com",
         ];
         
         window.isCorsDomain = function(url) {
@@ -1118,73 +1118,6 @@
                         ShowIframe("//p7scratchextensions.pages.dev/extras/html/SVGtext", "SVG Text Importer")
                     }
                 );
-                
-                // URL import addon
-                addImageButton(
-                    '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
-                    async () => {
-                        var [overlay, frame, title] = MakeWidget("Image importer", "400px", "190px");
-
-                        frame.style.textAlign = 'center';
-                  
-                        const promptInput = document.createElement('input');
-                        promptInput.type = 'text';
-                        promptInput.placeholder = 'https://example.com/randomimage.png';
-                        promptInput.style.margin = '10px 0';
-                        promptInput.style.padding = '10px';
-                        promptInput.style.width = 'calc(100% - 60px)';
-                        promptInput.style.border = '1px solid #ccc';
-                        promptInput.style.borderRadius = '5px';
-                        promptInput.style.marginTop = '20px';
-                        frame.appendChild(promptInput);
-                        setTimeout(() => promptInput.focus(), 100);
-
-                        const confirmButton = document.createElement('button');
-                        confirmButton.textContent = 'Import';
-                        confirmButton.style.padding = '10px 15px';
-                        confirmButton.style.float = "right";
-                        confirmButton.style.marginRight = '18px';
-                        confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
-                        confirmButton.style.border = "1px solid rgb(0, 181, 236)";
-                        confirmButton.style.color = '#fff';
-                        confirmButton.style.cursor = 'pointer';
-                        confirmButton.style.borderRadius = '5px';
-                        confirmButton.style.marginTop = '10px';
-                        confirmButton.style.transition = 'background-color 0.3s';
-                        confirmButton.addEventListener('mouseenter', () => {
-                            confirmButton.style.backgroundColor = 'rgb(0, 159, 207)';
-                        });
-                        confirmButton.addEventListener('mouseleave', () => {
-                            confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
-                        });
-                        frame.appendChild(confirmButton);
-
-                        async function finishAndImportImageFromURL() {
-                            var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
-                            title.innerHTML = "Importing image";
-
-                            if (!url.startsWith("data") && !url.startsWith("/")){
-                                url = "https://api.allorigins.win/raw?url=" + url;
-                            }
-
-                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid #f3f3f3;border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
-
-                            await window.importImage(url.split('/').pop(), url)
-
-                            document.body.removeChild(overlay);
-                        }
-
-                        promptInput.addEventListener('keydown', function(event) {
-                            if (event.key === 'Enter') {
-                                finishAndImportImageFromURL()
-                            }
-                        });                          
-
-                        confirmButton.addEventListener('click', async () => {
-                            finishAndImportImageFromURL()
-                        });
-                    }
-                );
 
                 // AI image addon
                 addImageButton(
@@ -1276,7 +1209,7 @@
                             prompt = key[1];
                             key = key[0];
 
-                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid #f3f3f3;border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
+                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid rgba(130, 130, 130, 0.07);border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
 
                             var GenID = await startImageGen(prompt, key);
 
@@ -1321,6 +1254,73 @@
                                     }
                                 }
                             }, 5000);
+                        }
+
+                        promptInput.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter') {
+                                finishAndImportImageFromURL()
+                            }
+                        });                          
+
+                        confirmButton.addEventListener('click', async () => {
+                            finishAndImportImageFromURL()
+                        });
+                    }
+                );
+
+                // URL import addon
+                addImageButton(
+                    '//yeetyourfiles.lol/download/f6756e9b-4ab5-4388-9bbf-1682a9fc2199',
+                    async () => {
+                        var [overlay, frame, title] = MakeWidget("Image importer", "400px", "190px");
+
+                        frame.style.textAlign = 'center';
+                  
+                        const promptInput = document.createElement('input');
+                        promptInput.type = 'text';
+                        promptInput.placeholder = 'https://example.com/randomimage.png';
+                        promptInput.style.margin = '10px 0';
+                        promptInput.style.padding = '10px';
+                        promptInput.style.width = 'calc(100% - 60px)';
+                        promptInput.style.border = '1px solid #ccc';
+                        promptInput.style.borderRadius = '5px';
+                        promptInput.style.marginTop = '20px';
+                        frame.appendChild(promptInput);
+                        setTimeout(() => promptInput.focus(), 100);
+
+                        const confirmButton = document.createElement('button');
+                        confirmButton.textContent = 'Import';
+                        confirmButton.style.padding = '10px 15px';
+                        confirmButton.style.float = "right";
+                        confirmButton.style.marginRight = '18px';
+                        confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
+                        confirmButton.style.border = "1px solid rgb(0, 181, 236)";
+                        confirmButton.style.color = '#fff';
+                        confirmButton.style.cursor = 'pointer';
+                        confirmButton.style.borderRadius = '5px';
+                        confirmButton.style.marginTop = '10px';
+                        confirmButton.style.transition = 'background-color 0.3s';
+                        confirmButton.addEventListener('mouseenter', () => {
+                            confirmButton.style.backgroundColor = 'rgb(0, 159, 207)';
+                        });
+                        confirmButton.addEventListener('mouseleave', () => {
+                            confirmButton.style.backgroundColor = 'rgb(0, 195, 255)';
+                        });
+                        frame.appendChild(confirmButton);
+
+                        async function finishAndImportImageFromURL() {
+                            var url = promptInput.value || `https://picsum.photos/${window.stageWidth}/${window.stageHeight}?${Math.random()*100}`;
+                            title.innerHTML = "Importing image";
+
+                            if (!url.startsWith("data") && !url.startsWith("/") && !window.isCorsDomain(url)){
+                                url = "https://api.allorigins.win/raw?url=" + url;
+                            }
+
+                            frame.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100%;"><div style="border:8px solid rgba(130, 130, 130, 0.07);border-top:8px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style>`;
+
+                            await window.importImage("Import", url)
+
+                            document.body.removeChild(overlay);
                         }
 
                         promptInput.addEventListener('keydown', function(event) {
