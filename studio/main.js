@@ -1354,7 +1354,7 @@
                     importurl = "https://api.allorigins.win/raw?url=" + importurl;
                 }
                 setTimeout(async()=>{
-                    await window.importImage(importurl.split('/').pop(), importurl);
+                    await window.importImage("Import", importurl); // importurl.split('/').pop() (some names cause images to not import)
                     setTimeout(function() {
                         deleteFirstCostume();
                     }, 100);
