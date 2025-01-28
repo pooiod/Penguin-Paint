@@ -19,6 +19,8 @@
     var HistoryReplaceState = history.replaceState;
     var HistoryPushState = history.pushState;
 
+    var dofirst = true;
+
     function deleteFirstCostume() {
         if (Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.length > 1) {
             Scratch.vm.runtime.getSpriteTargetByName("Sprite1").sprite.costumes_.shift();
@@ -231,13 +233,13 @@
                 justify-content: center;
                 align-items: center;
                 text-align: center;
-                background-color: #00c3ff;
+                background-color: ${dofirst?"#00c3ff":"#fff"};
                 z-index: 999;
             }
             #loadingImage {
                 width: 100px;
                 height: 100px;
-                background-color: #fff;
+                background-color: ${dofirst?"#fff":"#00c3ff"};
                 mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
                 -webkit-mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
                 animation: skewAnimation 2s ease-in-out infinite;
@@ -266,6 +268,8 @@
             <div id="loadingImage"></div>
             <h1>Loading Paint</h1>
         `;
+
+        dofirst = false;
         
         document.body.appendChild(loadingScreen);
     }
@@ -1360,6 +1364,10 @@
                     }, 100);
                     if (document.getElementById("paintLoadingScreen")) {
                         loadingScreen.remove();
+                        var meta = document.createElement('meta');
+                        meta.name = 'theme-color';
+                        meta.content = '#fff';
+                        document.head.appendChild(meta);                        
                     }
                 }, 500);
             }
@@ -1482,7 +1490,7 @@
         
             // setInterval(checkCookies, 1000);
         }
-        
+
         const waitForElement = (selector) => {
             const checkExist = setInterval(() => {
                 if (document.querySelector(selector)) {
@@ -1499,6 +1507,10 @@
                             document.querySelector('#react-tabs-2').click();
                             if (!new URL(window.location.href).searchParams.get('import')) {
                                 loadingScreen.remove();
+                                var meta = document.createElement('meta');
+                                meta.name = 'theme-color';
+                                meta.content = '#fff';
+                                document.head.appendChild(meta);
                             }
                             try {
                                 document.querySelector('#react-tabs-2').click();
