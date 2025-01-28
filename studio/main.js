@@ -251,7 +251,7 @@
             }
             h1 {
                 margin-top: 20px;
-                color: #fff;
+                color: ${dofirst?"#fff":"#00c3ff"};
                 animation: titleAnimation 1.5s ease-in-out infinite;
             }
             @keyframes titleAnimation {
