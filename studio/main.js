@@ -11,6 +11,14 @@
         }
     }
 
+    let metaTag = document.querySelector('meta[name="theme-color"]') || document.createElement('meta');
+    if (!metaTag.hasAttribute('name')) {
+      metaTag.name = 'theme-color';
+      document.head.appendChild(metaTag);
+    }
+    metaTag.setAttribute('content', '#00c6ff');
+    document.documentElement.style.backgroundColor = "#fff";
+
     var newtitle = "Penguin Paint";
     document.title = newtitle;
 
