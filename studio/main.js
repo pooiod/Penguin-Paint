@@ -297,6 +297,11 @@
         var newtitle = "Penguin Paint";
         document.title = newtitle;
 
+        setInterval(() => {
+            let color = getComputedStyle(document.documentElement).getPropertyValue("--ui-primary").trim() || "#fff";
+            window.postMessage(JSON.stringify({ color: color }), "*");
+        }, 1000);        
+
         var paintLoadingScreen = document.getElementById("paintLoadingScreen");
 
         var sidebarcontext = [

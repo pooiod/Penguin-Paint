@@ -11,10 +11,6 @@
     <link rel="icon" type="image/x-icon" href="/icons/favicon.png">
 
     <style>
-        :root {
-            background-color: #fff;
-        }
-
         body {
             margin: 0;
             display: flex;
@@ -150,6 +146,14 @@
                     iframe.style.border = 'none';
                     document.body.appendChild(iframe);
 
+                    window.addEventListener("message", (event) => {
+                        try {
+                            let data = JSON.parse(event.data);
+                            if (data.color) {
+                                document.documentElement.style.backgroundColor = data.color;
+                            }
+                        } catch (e) {}
+                    });
                 }, 10);
             } catch (error) {
                 console.error('Error processing the project:', error);
@@ -203,6 +207,7 @@
                     }
 
                     const url = `https://studio.penguinmod.com/editor.html?project_url=${newprams}`;
+                    document.documentElement.style.backgroundColor = "#fff";
                     // window.open(url);
                     window.location.href = url;
                 } else {
