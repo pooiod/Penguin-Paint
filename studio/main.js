@@ -22,6 +22,41 @@
     var newtitle = "Penguin Paint";
     document.title = newtitle;
 
+    var scriptloaderscripttmperuda = document.createElement('script');
+    scriptloaderscripttmperuda.src = "https://cdn.jsdelivr.net/npm/eruda";
+    document.body.append(scriptloaderscripttmperuda);
+    scriptloaderscripttmperuda.onload = function() {
+      eruda.init();
+      setTimeout(function() {
+        document.querySelector("#eruda").shadowRoot.querySelector("div > div.eruda-entry-btn").style.display = "none";
+        if (window.location.search == '?eruda=true' || window.location.search.includes('&eruda=true')) {
+          conshow = 1;
+          eruda.show();
+        }
+      }, 100);
+      var conshow = 0;
+      window.openconsole = () => {
+        if (conshow == 0) {
+          conshow = 1;
+          eruda.show();
+        } else {
+          conshow = 0;
+          eruda.hide();
+        }
+      };
+      document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+          if (conshow == 0) {
+            conshow = 1;
+            eruda.show();
+          } else {
+            conshow = 0;
+            eruda.hide();
+          }
+        }
+      });
+    };
+
     var loadimg = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAEpJREFUKFOdkFEKACAIQ+f9D20sUqZUUH45fajTUMObttCZACCkmkzWorGDYtjsEVTomHewnZjSv8Hr6uJu3cxaMfr8Hn2FGspBA/gaFwffFgUWAAAAAElFTkSuQmCC`;
     
     var HistoryReplaceState = history.replaceState;
