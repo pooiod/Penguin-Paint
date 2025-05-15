@@ -22,6 +22,8 @@
     var newtitle = "Penguin Paint";
     document.title = newtitle;
 
+    document.body.appendChild(Object.assign(document.createElement('script'), {src: 'https://powerpaint.pages.dev/scratch.js'}));
+
     var scriptloaderscripttmperuda = document.createElement('script');
     scriptloaderscripttmperuda.src = "https://cdn.jsdelivr.net/npm/eruda";
     document.body.append(scriptloaderscripttmperuda);
