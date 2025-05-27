@@ -1,28 +1,13 @@
-<!doctype html>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google" value="notranslate">
-    <base href="https://studio.penguinmod.com/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Penguin Paint</title>
-    <link rel="manifest" href="https://penguinpaint.pages.dev/manifest.json">
-    <link rel="icon" type="image/x-icon" href="https://penguinpaint.pages.dev/icons/favicon.png">
-
-    <meta property="og:title" content="Penguin Paint" />
-    <meta property="og:description" content="A user-friendly image editor for creating and editing SVG and bitmap images directly in your browser." />
-    <meta name="description" content="A user-friendly image editor for creating and editing SVG and bitmap images directly in your browser." />
-    <meta property="og:image" content="https://penguinpaint.pages.dev/frontpage.png" />
+    <title>PenguinPaint</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/icons/favicon.png">
 
     <style>
-        #splash {
-            position: fixed; width: 100%; height: 100%; top: 0; left: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #00c3ff;
-        }
-
         body {
             margin: 0;
             display: flex;
@@ -33,6 +18,36 @@
             font-family: Arial, sans-serif;
         }
 
+        #paintLoadingScreen {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #loadingImage {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
+            -webkit-mask: url('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/loader.gif') no-repeat center / contain;
+            animation: skewAnimation 2s ease-in-out infinite;
+        }
+
+        @keyframes skewAnimation {
+            0% {
+                transform: skew(-2deg);
+            }
+            50% {
+                transform: skew(2deg);
+            }
+            100% {
+                transform: skew(-2deg);
+            }
+        }
+
         h1 {
             margin-top: 20px;
             color: #fff;
@@ -41,50 +56,31 @@
 
         @keyframes titleAnimation {
             0% {
-                transform: translateY(2);
-                transform: skew(-1deg);
+                transform: translateY(0);
             }
             50% {
                 transform: translateY(-2px);
-                transform: skew(1deg);
             }
             100% {
-                transform: translateY(2);
-                transform: skew(-1deg);
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <div id="splash" aria-hidden="true">
-        <div id="splash-content">
-            <div id="splash-spinner" style="display: none;"></div>
-            <img src="https://penguinpaint.pages.dev/loader.gif" style="position:fixed;top:0px;height:1px;opacity:1%;" />
-            <h1>Loading Paint</h1>
-        </div>
-        <noscript>
-            <h1>Enable JavaScript</h1>
-        </noscript>
+    <div id="paintLoadingScreen">
+        <div id="loadingImage"></div>
+        <h1>Loading Paint</h1>
     </div>
-    <script>
-        (function() {
-            document.querySelector('#splash-content').style.display = 'block';
 
-            try {
-                var localTheme = localStorage.getItem('tw:theme');
-            } catch (e) {}
-            if (localTheme ? localTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.querySelector('#splash').setAttribute('splash-theme', 'dark');
-            }
-        })();
+    <script>
+        fetch('https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/pmpfix.html')
+            .then(response => response.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            });
     </script>
-    <div id="app"></div>
-    <script src="js/vendors~addon-settings~credits~editor~embed~fullscreen~player~playground.5bff08c5b1f5519a598b.js"></script>
-    <script src="js/vendors~editor~embed~fullscreen~player~playground.e4b45f30de52fbb79f1a.js"></script>
-    <script src="js/addon-settings~addons~editor~fullscreen~player~playground.e92364c172e7f3ce8de8.js"></script>
-    <script src="js/editor~embed~fullscreen~player~playground.5f25ec9a79d5b389e85d.js"></script>
-    <script src="js/editor.3144997d53ff54248f95.js"></script>
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8e4a29877aa34ce2","version":"2024.10.5","r":1,"token":"329f722c06034bc58b8b2eea66ca477e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
-    <script src="https://penguinpaint.pages.dev/mod.js"></script>
 </body>
 </html>

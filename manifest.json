@@ -1,42 +1,51 @@
 {
-    "id": "/penguinpaint",
-    "name": "Penguin Paint",
-    "short_name": "PenguinPaint",
+  "id": "/penguinpaint",
+  "name": "Penguin Paint",
+  "short_name": "PenguinPaint",
   
-    "theme_color": "#00c3ff",
-    "background_color": "#00c3ff",
+  "description": "A smiple SVG / PNG image editor",
   
-    "description": "A smiple SVG / PNG image editor",
-  
-    "start_url": "https://penguinpaint.pages.dev/",
-    "scope": "/",
-  
-    "display": "standalone",
-  
-    "icons": [
-      {
-        "src": "/icons/280.png",
-        "sizes": "280x280",
-        "type": "image/png"
-      },
-      {
-        "src": "/icons/128.png",
-        "sizes": "128x128",
-        "type": "image/png"
-      },
-      {
-        "src": "/icons/48.png",
-        "sizes": "48x48",
-        "type": "image/png"
-      },
-      {
-        "src": "/icons/16.png",
-        "sizes": "16x16",
-        "type": "image/png"
-      }
-    ],
-  
-    "orientation": "any", 
+  "display_override": ["tabbed"],
+  "display": "standalone",
 
-    "lang": "en"
+  "background_color": "#fff",
+  "theme_color": "#00c3ff",
+  
+  "start_url": "/",
+  "scope": "/",
+  "full_url": "https://penguinpaint.statichost.app/",
+  
+  "icons": [
+    {
+      "src": "/icons/280.png",
+      "sizes": "280x280",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+
+  "orientation": "any",
+
+  "lang": "en",
+
+  "tab_strip": {
+    "home_tab": ["absent"],
+    "new_tab_button": {
+      "url": "/"
+    }
+  }
 }
