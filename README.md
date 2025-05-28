@@ -27,6 +27,10 @@ To use Penguin Paint, simply follow these steps:
 2. Navigate to the [Penguin Paint Web App](https://pooiod.github.io/Penguin-Paint?import=https://yeetyourfiles.lol/download/6137cd1f-28a7-4916-8289-cdf70064191b).
 3. Start editing your images right away!
 
+## Versions
+- [Website](https://pooiod.github.io/Penguin-Paint)
+- [Progressive web app](https://penguinpaint.statichost.app/)
+
 ## Usage
 
 Once you're on the Penguin Paint web app, you can:
