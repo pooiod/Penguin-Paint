@@ -2,6 +2,9 @@
 
 **Penguin Paint** is an image editor based on [PenguinMod](https://penguinmod.com)s costume editor. It provides a streamlined experience by focusing solely on the image editing features, making it perfect for users who want to create and edit images effortlessly.
 
+> the file host for PenguinPaint is down right now, but you can still use PenguinPaint by loading this extension into PenguinMod:
+> https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/studio/main.js
+
 [![](frontpage.svg)](https://pooiod.github.io/Penguin-Paint?import=https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/frontpage.svg "penguinpaint.statichost.app")<br>
 <sub>- This image was made in Penguin Paint</sub>
 
