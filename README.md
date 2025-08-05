@@ -33,6 +33,7 @@ To use Penguin Paint, simply follow these steps:
 ## Versions
 - [Website](https://pooiod.github.io/Penguin-Paint)
 - [Progressive web app](https://penguinpaint.statichost.app/)
+- [PenguinMod project](https://studio.penguinmod.com/editor.html?project_url=https://raw.githubusercontent.com/pooiod/Penguin-Paint/refs/heads/main/PenguinPaint.pmp)
 
 ## Usage
 
